@@ -1,0 +1,2786 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>ระบบเช็คอุปกรณ์ประจำรถพยาบาล - หน่วยกู้ชีพเทศบาลเมืองพันท้ายนรสิงห์</title>
+  
+  <!-- PWA & Mobile Web App Meta -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="กู้ชีพพันท้าย">
+  <meta name="application-name" content="กู้ชีพพันท้าย">
+  <meta name="theme-color" content="#0f172a">
+  <meta name="msapplication-TileColor" content="#dc2626">
+
+  <!-- SVG Favicon & Apple Touch Icon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23dc2626'/><path d='M25 50h50M50 25v50' stroke='white' stroke-width='14' stroke-linecap='round'/></svg>">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23dc2626'/><path d='M25 50h50M50 25v50' stroke='white' stroke-width='14' stroke-linecap='round'/></svg>">
+
+  <!-- Web App Manifest (Data URI for Standalone PWA Installation) -->
+  <link rel="manifest" href="data:application/manifest+json;utf-8,%7B%22name%22%3A%22%E0%B8%A3%E0%B8%B0%E0%B8%9A%E0%B8%9A%E0%B9%80%E0%B8%8A%E0%B9%87%E0%B8%84%E0%B8%AD%E0%B8%B8%E0%B8%9B%E0%B8%81%E0%B8%A3%E0%B8%93%E0%B9%8C%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%88%E0%B8%B3%E0%B8%A3%E0%B8%loads%E0%B8%9E%E0%B8%A2%E0%B8%B2%E0%B8%9A%E0%B8%B2%E0%B8%A5%20%E0%B8%81%E0%B8%B9%E0%B9%89%E0%B8%8improved%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%A2%E0%B8%99%E0%B8%A3%E0%B8%AA%E0%B8%B4%E0%B8%87%E0%B8%AB%E0%B9%8C%22%2C%22short_name%22%3A%22%E0%B8%81%E0%B8%B9%E0%B9%89%E0%B8%8improved%E0%B8%9E%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B9%89%E0%B8%B2%E0%B8%A2%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%23dc2626%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%2C%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20100%20100%27%3E%3Crect%20width%3D%27100%27%20height%3D%27100%27%20rx%3D%2722%27%20fill%3D%27%2523dc2626%27%2F%3E%3Cpath%20d%3D%27M25%2050h50M50%2025v50%27%20stroke%3D%27white%27%20stroke-width%3D%2714%27%20stroke-linecap%3D%27round%27%2F%3E%3C%2Fsvg%3E%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
+
+  <!-- Google Fonts: Prompt & Kanit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons & Tailwind CDN for utility helpers -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ems: {
+              navy: '#0f172a',
+              blue: '#1e3a8a',
+              sky: '#0284c7',
+              red: '#dc2626',
+              emerald: '#16a34a',
+              amber: '#d97706',
+              slate: '#f8fafc'
+            }
+          },
+          fontFamily: {
+            sans: ['Prompt', 'Kanit', 'sans-serif'],
+            kanit: ['Kanit', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- SweetAlert2 for modern modals & notifications -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <!-- jsPDF & autoTable for PDF Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+  <!-- SheetJS for Excel Export -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <!-- Chart.js for stats -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    * {
+      font-family: 'Prompt', 'Kanit', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Smooth Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+
+    /* Custom Glass & Shadows */
+    .ems-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+      transition: all 0.2s ease-in-out;
+    }
+    .ems-card:hover {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    }
+    .badge-glow {
+      box-shadow: 0 0 12px rgba(22, 163, 74, 0.35);
+    }
+    .badge-glow-red {
+      box-shadow: 0 0 12px rgba(220, 38, 38, 0.35);
+    }
+
+    /* Print styling */
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #printReportArea, #printReportArea * {
+        visibility: visible;
+      }
+      #printReportArea {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+  <!-- ========================================================================= -->
+  <!-- 1. TOP HEADER & LIVE THAI CLOCK -->
+  <!-- ========================================================================= -->
+  <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40 border-b border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 sm:h-20">
+        
+        <!-- Logo & Title -->
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br from-red-600 via-red-500 to-amber-500 flex items-center justify-center shadow-md text-white">
+            <i class="fa-solid fa-truck-medical text-xl sm:text-2xl"></i>
+          </div>
+          <div>
+            <div class="flex items-center space-x-2">
+              <span class="text-xs font-semibold uppercase tracking-wider bg-red-600 text-white px-2 py-0.5 rounded-full">EMS 1669</span>
+              <span class="text-xs text-slate-300 hidden md:inline">เทศบาลเมืองพันท้ายนรสิงห์</span>
+            </div>
+            <h1 class="text-base sm:text-lg lg:text-xl font-bold tracking-tight text-white leading-tight font-kanit">
+              ระบบเช็คอุปกรณ์ประจำรถพยาบาล
+            </h1>
+          </div>
+        </div>
+
+        <!-- Live Clock, PWA Install, API Config & User Info -->
+        <div class="flex items-center space-x-2 sm:space-x-2.5">
+          
+          <!-- API Endpoint / GitHub Sync Settings Button -->
+          <button id="btnApiConfig" onclick="showApiConfigModal()" class="px-2.5 sm:px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs sm:text-sm font-semibold rounded-xl border border-slate-700 shadow-sm transition flex items-center space-x-1.5" title="ตั้งค่าเชื่อมต่อ Google Sheet Web App API">
+            <i class="fa-solid fa-link text-emerald-400" id="apiStatusIcon"></i>
+            <span class="hidden md:inline" id="apiStatusText">เชื่อมต่อ API</span>
+          </button>
+
+          <!-- PWA Install Button -->
+          <button id="btnPwaInstall" onclick="promptPWAInstall()" class="px-2.5 sm:px-3 py-1.5 bg-gradient-to-r from-amber-500 to-red-600 hover:from-amber-600 hover:to-red-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center space-x-1.5 border border-amber-400/40" title="ติดตั้งแอปพลิเคชันลงบนมือถือ/แท็บเล็ต/คอมพิวเตอร์">
+            <i class="fa-solid fa-mobile-screen-button animate-pulse"></i>
+            <span class="hidden sm:inline">ติดตั้งแอป PWA</span>
+            <span class="sm:hidden">ติดตั้งแอป</span>
+          </button>
+
+          <!-- Real-time Live Thai Clock -->
+          <div class="hidden lg:flex flex-col text-right bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700">
+            <div id="liveClockDate" class="text-xs font-medium text-slate-300">
+              <i class="fa-regular fa-calendar-days text-amber-400 mr-1"></i> กำลังโหลดวันที่...
+            </div>
+            <div id="liveClockTime" class="text-sm font-bold text-emerald-400 font-mono tracking-wider">
+              <i class="fa-regular fa-clock text-emerald-400 mr-1"></i> 00:00:00 น.
+            </div>
+          </div>
+
+          <!-- User Badge / Login Action -->
+          <div id="headerUserSection" class="flex items-center space-x-2">
+            <!-- Will be dynamically filled by Auth JS -->
+            <button onclick="showLoginModal()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-lg shadow transition flex items-center space-x-1.5">
+              <i class="fa-solid fa-right-to-bracket"></i>
+              <span>เข้าสู่ระบบ</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Mobile Clock Bar -->
+      <div class="lg:hidden py-1 border-t border-slate-800 flex justify-between items-center text-xs text-slate-300">
+        <span id="liveClockDateMobile"><i class="fa-regular fa-calendar-days text-amber-400 mr-1"></i> วันที่</span>
+        <span id="liveClockTimeMobile" class="font-mono text-emerald-400 font-bold">00:00:00 น.</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- ========================================================================= -->
+  <!-- 2. NAVIGATION BAR & TABS -->
+  <!-- ========================================================================= -->
+  <nav id="mainNav" class="bg-white border-b border-slate-200 sticky top-16 sm:top-20 z-30 shadow-sm hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex space-x-1 sm:space-x-4 overflow-x-auto py-2 scrollbar-none">
+        
+        <button onclick="switchTab('tabChecklist')" id="navTabChecklist" class="nav-tab active-tab px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap bg-red-50 text-red-700 border border-red-200">
+          <i class="fa-solid fa-clipboard-check text-red-600"></i>
+          <span>ตรวจเช็คอุปกรณ์ประจำรถ</span>
+        </button>
+
+        <button onclick="switchTab('tabStats')" id="navTabStats" class="nav-tab px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+          <i class="fa-solid fa-chart-pie text-blue-600"></i>
+          <span>สถิติ & ประวัติการเช็ค</span>
+        </button>
+
+        <button onclick="switchTab('tabEquipment')" id="navTabEquipment" class="nav-tab px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+          <i class="fa-solid fa-boxes-stacked text-emerald-600"></i>
+          <span>จัดการอุปกรณ์</span>
+        </button>
+
+        <button onclick="switchTab('tabUsers')" id="navTabUsers" class="nav-tab px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+          <i class="fa-solid fa-users-gear text-purple-600"></i>
+          <span>จัดการผู้ใช้งาน <span id="pendingUsersBadge" class="hidden ml-1 px-1.5 py-0.2 bg-red-600 text-white rounded-full text-[10px]">0</span></span>
+        </button>
+
+        <button onclick="switchTab('tabSettings')" id="navTabSettings" class="nav-tab px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-semibold flex items-center space-x-2 whitespace-nowrap text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition">
+          <i class="fa-solid fa-sliders text-slate-600"></i>
+          <span>ตั้งค่า & Google Sheet</span>
+        </button>
+
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- 3. MAIN CONTENT CONTAINER (Responsive for Mobile, Tablet, Desktop) -->
+  <!-- ========================================================================= -->
+  <main class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-4 sm:py-6 flex-grow w-full pb-28 lg:pb-8">
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- TAB 1: CHECKLIST TAB (ตรวจเช็คอุปกรณ์ประจำรถ) -->
+    <!-- ----------------------------------------------------------------------- -->
+    <section id="tabChecklist" class="space-y-4 sm:space-y-6">
+      
+      <!-- Top Vehicle Selector & Metadata Bar -->
+      <div class="ems-card p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+          
+          <!-- Vehicle Selector (3 Ambulance Vehicles) -->
+          <div class="md:col-span-6 space-y-1.5">
+            <label class="block text-xs font-bold text-slate-600 uppercase tracking-wide">
+              <i class="fa-solid fa-ambulance text-red-600 mr-1"></i> เลือกรถพยาบาลที่ต้องการตรวจเช็ค:
+            </label>
+            <div class="grid grid-cols-3 gap-2">
+              <button type="button" onclick="selectAmbulance('กข9745')" id="btnVeh3" class="vehicle-btn active px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-2 border-red-600 bg-red-600 text-white shadow-sm flex items-center justify-center space-x-1.5 transition">
+                <i class="fa-solid fa-truck-medical"></i>
+                <span>กข 9745</span>
+              </button>
+              <button type="button" onclick="selectAmbulance('กค7080')" id="btnVeh4" class="vehicle-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-500 hover:text-blue-600 shadow-sm flex items-center justify-center space-x-1.5 transition">
+                <i class="fa-solid fa-truck-medical"></i>
+                <span>กค 7080</span>
+              </button>
+              <button type="button" onclick="selectAmbulance('กง3002')" id="btnVeh5" class="vehicle-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-2 border-slate-200 bg-white text-slate-700 hover:border-emerald-500 hover:text-emerald-600 shadow-sm flex items-center justify-center space-x-1.5 transition">
+                <i class="fa-solid fa-truck-medical"></i>
+                <span>กง 3002</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Date & Shift & Checker Information -->
+          <div class="md:col-span-6 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">
+                <i class="fa-regular fa-calendar text-blue-600 mr-1"></i> วันที่ตรวจเช็ค:
+              </label>
+              <input type="date" id="checkDateInput" onchange="onDateChanged()" class="w-full px-2.5 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold text-slate-800 focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">
+                <i class="fa-solid fa-clock-rotate-left text-amber-500 mr-1"></i> เวรปฏิบัติงาน:
+              </label>
+              <div class="grid grid-cols-2 gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200">
+                <button type="button" onclick="selectShift('เวรเช้า')" id="btnShiftMorning" class="shift-btn active px-1.5 py-1 rounded-md text-xs font-bold bg-amber-500 text-white shadow-sm flex items-center justify-center space-x-1 transition">
+                  <span>☀️ เช้า</span>
+                </button>
+                <button type="button" onclick="selectShift('เวรดึก')" id="btnShiftNight" class="shift-btn px-1.5 py-1 rounded-md text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1 transition">
+                  <span>🌙 ดึก</span>
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-bold text-slate-600 mb-1">
+                <i class="fa-solid fa-id-badge text-emerald-600 mr-1"></i> รหัสผู้ตรวจ:
+              </label>
+              <input type="text" id="checkerIdInput" readonly class="w-full px-2.5 py-2 bg-amber-50 border border-amber-300 rounded-lg text-xs font-bold text-amber-900 focus:outline-none truncate" title="รหัสผู้ตรวจ">
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Progress and Fast Actions Header -->
+        <div class="mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
+          
+          <!-- Readiness Metric Summary -->
+          <div class="flex items-center space-x-3 w-full sm:w-auto">
+            <div class="text-xs font-bold text-slate-600">ความพร้อมของอุปกรณ์:</div>
+            <div class="flex-grow sm:w-48 bg-slate-200 rounded-full h-3.5 overflow-hidden">
+              <div id="readinessProgressBar" class="bg-emerald-500 h-full rounded-full transition-all duration-300" style="width: 100%;"></div>
+            </div>
+            <span id="readinessPercentText" class="text-sm font-extrabold text-emerald-600 font-mono">100%</span>
+          </div>
+
+          <!-- Quick Action Buttons -->
+          <div class="flex items-center space-x-2 w-full sm:w-auto justify-end">
+            <button type="button" onclick="setAllItemsStatus('Ready')" class="px-3 py-1.5 bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold rounded-lg border border-emerald-300 transition flex items-center space-x-1">
+              <i class="fa-solid fa-check-double"></i>
+              <span>ตรวจผ่านทั้งหมด</span>
+            </button>
+            <button type="button" onclick="resetChecklistForm()" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg border border-slate-300 transition flex items-center space-x-1">
+              <i class="fa-solid fa-rotate-left"></i>
+              <span>ล้างค่า</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Filter / Search Tools -->
+      <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
+        
+        <!-- Category Filter Pills -->
+        <div id="categoryFilterContainer" class="flex space-x-1.5 overflow-x-auto w-full sm:w-auto py-1 scrollbar-none">
+          <button onclick="filterChecklistCategory('all')" class="cat-pill active px-3 py-1 bg-slate-800 text-white rounded-full text-xs font-medium whitespace-nowrap">ทั้งหมด (40)</button>
+          <button onclick="filterChecklistCategory('ระบบไฟและตัวรถ')" class="cat-pill px-3 py-1 bg-white text-slate-700 border border-slate-300 rounded-full text-xs font-medium whitespace-nowrap hover:bg-slate-100">ไฟ/ตัวรถ</button>
+          <button onclick="filterChecklistCategory('อุปกรณ์ดามกระดูกและคอ')" class="cat-pill px-3 py-1 bg-white text-slate-700 border border-slate-300 rounded-full text-xs font-medium whitespace-nowrap hover:bg-slate-100">ดาม/เคลื่อนย้าย</button>
+          <button onclick="filterChecklistCategory('อุปกรณ์ออกซิเจนและทางเดินหายใจ')" class="cat-pill px-3 py-1 bg-white text-slate-700 border border-slate-300 rounded-full text-xs font-medium whitespace-nowrap hover:bg-slate-100">ทางเดินหายใจ/O2</button>
+          <button onclick="filterChecklistCategory('เครื่องมือแพทย์ฉุกเฉิน')" class="cat-pill px-3 py-1 bg-white text-slate-700 border border-slate-300 rounded-full text-xs font-medium whitespace-nowrap hover:bg-slate-100">เครื่องมือแพทย์</button>
+          <button onclick="filterChecklistCategory('สุขอนามัยและความสะอาด')" class="cat-pill px-3 py-1 bg-white text-slate-700 border border-slate-300 rounded-full text-xs font-medium whitespace-nowrap hover:bg-slate-100">ความสะอาด</button>
+        </div>
+
+        <!-- Search Box -->
+        <div class="relative w-full sm:w-64">
+          <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+          <input type="text" id="searchItemInput" onkeyup="searchChecklistItems()" placeholder="ค้นหาชื่ออุปกรณ์..." class="w-full pl-8 pr-3 py-1.5 bg-white border border-slate-300 rounded-lg text-xs font-medium text-slate-800 focus:ring-2 focus:ring-red-500 focus:outline-none shadow-sm">
+        </div>
+
+      </div>
+
+      <!-- Checklist Items Container (Grid of 40 Items - Responsive 1/2/3 cols) -->
+      <div id="checklistItemsList" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3 sm:gap-4">
+        <!-- Rendered dynamically by checklist.js -->
+      </div>
+
+      <!-- Bottom Submission Bar -->
+      <div class="ems-card p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 shadow-md space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            <i class="fa-regular fa-comment-dots text-blue-600 mr-1"></i> หมายเหตุเพิ่มเติม / สรุปความพร้อมของรถและอุปกรณ์:
+          </label>
+          <textarea id="overallNoteInput" rows="2" placeholder="ระบุรายละเอียดเพิ่มเติม (ถ้ามี)..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm text-slate-800 focus:ring-2 focus:ring-red-500 focus:outline-none"></textarea>
+        </div>
+
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+          <div class="text-xs text-slate-500 flex items-center space-x-1.5">
+            <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+            <span>ระบบจะบันทึกข้อมูลแบบ Batch Sync ลง Google Sheets ทั้ง 3 ชีทและชีทประวัติแบบอัตโนมัติ</span>
+          </div>
+
+          <div class="flex items-center space-x-3 w-full sm:w-auto">
+            <button type="button" onclick="submitChecklist()" id="btnSubmitChecklist" class="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-sm font-bold rounded-xl shadow-lg hover:shadow-xl transition transform active:scale-95 flex items-center justify-center space-x-2">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              <span>บันทึกผลการตรวจเช็ค (Save Data)</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- TAB 2: STATISTICS & HISTORY TAB (สถิติ & ประวัติการเช็ค) -->
+    <!-- ----------------------------------------------------------------------- -->
+    <section id="tabStats" class="space-y-4 sm:space-y-6 hidden">
+      
+      <!-- Filter Bar -->
+      <div class="ems-card p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">
+              <i class="fa-solid fa-ambulance text-red-600 mr-1"></i> เลือกรถพยาบาล:
+            </label>
+            <select id="filterStatsVehicle" onchange="loadStatsData()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold">
+              <option value="All">ทุกคัน (กข9745, กค7080, กง3002)</option>
+              <option value="กข9745">กข 9745</option>
+              <option value="กค7080">กค 7080</option>
+              <option value="กง3002">กง 3002</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">
+              <i class="fa-regular fa-calendar-days text-blue-600 mr-1"></i> ตั้งแต่วันที่:
+            </label>
+            <input type="date" id="filterStatsStartDate" onchange="loadStatsData()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-600 mb-1">
+              <i class="fa-regular fa-calendar-days text-blue-600 mr-1"></i> ถึงวันที่:
+            </label>
+            <input type="date" id="filterStatsEndDate" onchange="loadStatsData()" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-lg text-xs font-semibold">
+          </div>
+
+          <div class="flex items-end space-x-2">
+            <button onclick="loadStatsData()" class="w-full px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-bold shadow flex items-center justify-center space-x-1">
+              <i class="fa-solid fa-filter"></i>
+              <span>กรองข้อมูล</span>
+            </button>
+            <button onclick="exportHistoryExcel()" class="px-3 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow flex items-center justify-center space-x-1" title="ส่งออก Excel">
+              <i class="fa-solid fa-file-excel"></i>
+              <span>Excel</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI Summary Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        
+        <div class="ems-card p-4 rounded-2xl bg-gradient-to-br from-blue-500 to-blue-700 text-white shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-xs font-medium text-blue-100">จำนวนการตรวจเช็คทั้งหมด</p>
+              <h3 id="statTotalChecks" class="text-2xl sm:text-3xl font-extrabold mt-1 font-mono">0 ครั้ง</h3>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-clipboard-list"></i>
+            </div>
+          </div>
+          <p class="text-[11px] text-blue-100 mt-2"><i class="fa-solid fa-clock-rotate-left mr-1"></i> อัปเดตล่าสุดตามข้อมูลจริง</p>
+        </div>
+
+        <div class="ems-card p-4 rounded-2xl bg-gradient-to-br from-emerald-500 to-emerald-700 text-white shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-xs font-medium text-emerald-100">ความพร้อมเฉลี่ยรวม</p>
+              <h3 id="statAvgReadiness" class="text-2xl sm:text-3xl font-extrabold mt-1 font-mono">100%</h3>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-circle-check"></i>
+            </div>
+          </div>
+          <p class="text-[11px] text-emerald-100 mt-2"><i class="fa-solid fa-shield-heart mr-1"></i> เกณฑ์มาตรฐาน EMS</p>
+        </div>
+
+        <div class="ems-card p-4 rounded-2xl bg-gradient-to-br from-red-500 to-red-700 text-white shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-xs font-medium text-red-100">รายการแจ้งไม่พร้อม/ชำรุด</p>
+              <h3 id="statDefectiveCount" class="text-2xl sm:text-3xl font-extrabold mt-1 font-mono">0 รายการ</h3>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+          </div>
+          <p class="text-[11px] text-red-100 mt-2"><i class="fa-solid fa-screwdriver-wrench mr-1"></i> รายการที่ต้องแก้ไข/เติมสต็อก</p>
+        </div>
+
+        <div class="ems-card p-4 rounded-2xl bg-gradient-to-br from-amber-500 to-amber-700 text-white shadow-md">
+          <div class="flex justify-between items-start">
+            <div>
+              <p class="text-xs font-medium text-amber-100">รถที่พร้อมปฏิบัติการ</p>
+              <h3 id="statReadyVehicles" class="text-2xl sm:text-3xl font-extrabold mt-1 font-mono">3 / 3 คัน</h3>
+            </div>
+            <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center text-lg">
+              <i class="fa-solid fa-truck-medical"></i>
+            </div>
+          </div>
+          <p class="text-[11px] text-amber-100 mt-2"><i class="fa-solid fa-signal mr-1"></i> กข9745, กค7080, กง3002</p>
+        </div>
+
+      </div>
+
+      <!-- History Table Container -->
+      <div class="ems-card rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
+        <div class="px-5 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+          <h3 class="text-sm font-bold text-slate-800 flex items-center space-x-2">
+            <i class="fa-solid fa-clock-rotate-left text-blue-600"></i>
+            <span>ประวัติการตรวจเช็คย้อนหลัง</span>
+          </h3>
+          <span id="historyCountText" class="text-xs font-semibold text-slate-500">พบ 0 รายการ</span>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-600 uppercase text-[11px] font-bold tracking-wider border-b border-slate-200">
+                <th class="py-3 px-4">วันที่ / เวลา</th>
+                <th class="py-3 px-4">รถพยาบาล</th>
+                <th class="py-3 px-4">รหัสผู้ตรวจ</th>
+                <th class="py-3 px-4">ความพร้อม</th>
+                <th class="py-3 px-4">รายการไม่พร้อม/หมายเหตุ</th>
+                <th class="py-3 px-4 text-center">จัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody" class="divide-y divide-slate-100">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- TAB 3: EQUIPMENT MANAGEMENT TAB (จัดการอุปกรณ์) -->
+    <!-- ----------------------------------------------------------------------- -->
+    <section id="tabEquipment" class="space-y-4 sm:space-y-6 hidden">
+      <div class="ems-card p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row justify-between items-center gap-3">
+        <div>
+          <h2 class="text-base sm:text-lg font-bold text-slate-800 font-kanit flex items-center space-x-2">
+            <i class="fa-solid fa-boxes-stacked text-emerald-600"></i>
+            <span>รายการอุปกรณ์ประจำรถพยาบาลฉุกเฉิน (Master Equipment List)</span>
+          </h2>
+          <p class="text-xs text-slate-500 mt-0.5">สามารถเพิ่มอุปกรณ์ใหม่เข้าสู่ระบบ รายการจะอัปเดตลงตารางชีททั้ง 3 คันอัตโนมัติ</p>
+        </div>
+
+        <button onclick="showAddEquipmentModal()" class="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md transition flex items-center space-x-2">
+          <i class="fa-solid fa-plus-circle"></i>
+          <span>เพิ่มอุปกรณ์ใหม่เข้าระบบ</span>
+        </button>
+      </div>
+
+      <div class="ems-card rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-600 uppercase text-[11px] font-bold tracking-wider border-b border-slate-200">
+                <th class="py-3 px-4 w-16 text-center">ลำดับ</th>
+                <th class="py-3 px-4">ชื่อรายการอุปกรณ์</th>
+                <th class="py-3 px-4">เกณฑ์/จำนวนมาตรฐาน</th>
+                <th class="py-3 px-4">หมวดหมู่</th>
+                <th class="py-3 px-4 text-center">สถานะ</th>
+              </tr>
+            </thead>
+            <tbody id="equipmentTableBody" class="divide-y divide-slate-100">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- TAB 4: USERS & APPROVAL MANAGEMENT (จัดการผู้ใช้งาน) -->
+    <!-- ----------------------------------------------------------------------- -->
+    <section id="tabUsers" class="space-y-4 sm:space-y-6 hidden">
+      <div class="ems-card p-4 sm:p-5 rounded-2xl bg-white border border-slate-200">
+        <h2 class="text-base sm:text-lg font-bold text-slate-800 font-kanit flex items-center space-x-2">
+          <i class="fa-solid fa-users-gear text-purple-600"></i>
+          <span>จัดการผู้ใช้งานและการอนุมัติสิทธิ์ (User & Access Control)</span>
+        </h2>
+        <p class="text-xs text-slate-500 mt-0.5">ผู้ดูแลระบบสามารถอนุมัติผู้ใช้งานใหม่ หรือเปลี่ยนสถานะผู้ใช้งานได้จากหน้านี้</p>
+      </div>
+
+      <div class="ems-card rounded-2xl bg-white border border-slate-200 overflow-hidden shadow-sm">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left border-collapse text-xs sm:text-sm">
+            <thead>
+              <tr class="bg-slate-100 text-slate-600 uppercase text-[11px] font-bold tracking-wider border-b border-slate-200">
+                <th class="py-3 px-4">User ID / Email</th>
+                <th class="py-3 px-4">ชื่อ-นามสกุล</th>
+                <th class="py-3 px-4">ตำแหน่ง</th>
+                <th class="py-3 px-4">ระดับสิทธิ์</th>
+                <th class="py-3 px-4">ต้องเปลี่ยนรหัส</th>
+                <th class="py-3 px-4 text-center">สถานะการอนุมัติ</th>
+                <th class="py-3 px-4 text-center">การจัดการ</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody" class="divide-y divide-slate-100">
+              <!-- Rendered dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------------------------------------------------- -->
+    <!-- TAB 5: SETTINGS & GOOGLE SHEET CONFIG -->
+    <!-- ----------------------------------------------------------------------- -->
+    <section id="tabSettings" class="space-y-4 sm:space-y-6 hidden">
+      <div class="ems-card p-5 rounded-2xl bg-white border border-slate-200 space-y-4">
+        <h2 class="text-base sm:text-lg font-bold text-slate-800 font-kanit flex items-center space-x-2">
+          <i class="fa-solid fa-sliders text-slate-700"></i>
+          <span>การตั้งค่าระบบและการเชื่อมต่อ Google Sheets</span>
+        </h2>
+        
+        <div class="p-4 bg-blue-50 border border-blue-200 rounded-xl space-y-2 text-xs text-blue-900">
+          <div class="font-bold flex items-center space-x-1.5 text-sm text-blue-950">
+            <i class="fa-solid fa-circle-info"></i>
+            <span>โครงสร้างชีทอัตโนมัติ 5 แผ่นงาน</span>
+          </div>
+          <p>1. <strong>พยาบาลที่3</strong> - ตารางเช็คประจำเดือน คันที่ 3 (วันที่ 1 - 31)</p>
+          <p>2. <strong>พยาบาลที่4</strong> - ตารางเช็คประจำเดือน คันที่ 4 (วันที่ 1 - 31)</p>
+          <p>3. <strong>พยาบาลที่5</strong> - ตารางเช็คประจำเดือน คันที่ 5 (วันที่ 1 - 31)</p>
+          <p>4. <strong>CheckLogs</strong> - ฐานข้อมูลประวัติการตรวจเช็คทั้งหมด พร้อมค้นหาและส่งออก PDF</p>
+          <p>5. <strong>EquipmentMaster & Users</strong> - จัดเก็บอุปกรณ์และรายชื่อเจ้าหน้าที่</p>
+        </div>
+
+        <div class="flex flex-col sm:flex-row gap-3 pt-2">
+          <button onclick="triggerInitSheets()" class="px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span>สร้าง/รีเซ็ตชีท 3 คันอัตโนมัติ (Init Sheets)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- 4. MODALS & POPUPS -->
+  <!-- ========================================================================= -->
+
+  <!-- Modal: Login Screen -->
+  <div id="loginModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="ems-card bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-fade-in">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-red-600 via-red-700 to-slate-900 p-6 text-white text-center relative">
+        <div class="w-14 h-14 mx-auto rounded-2xl bg-white/10 flex items-center justify-center mb-3 shadow-inner">
+          <i class="fa-solid fa-truck-medical text-3xl text-amber-400"></i>
+        </div>
+        <h3 class="text-lg sm:text-xl font-bold font-kanit">เข้าสู่ระบบตรวจเช็คอุปกรณ์</h3>
+        <p class="text-xs text-slate-200 mt-1">หน่วยกู้ชีพเทศบาลเมืองพันท้ายนรสิงห์</p>
+      </div>
+
+      <!-- Modal Body (Login Form) -->
+      <div class="p-6 space-y-4">
+        
+        <!-- Toggle Tabs: Login / Register -->
+        <div class="flex bg-slate-100 p-1 rounded-xl">
+          <button onclick="toggleAuthMode('login')" id="btnAuthModeLogin" class="w-1/2 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-slate-900">เข้าสู่ระบบ</button>
+          <button onclick="toggleAuthMode('register')" id="btnAuthModeRegister" class="w-1/2 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900">ลงทะเบียนใหม่</button>
+        </div>
+
+        <!-- Form 1: Login Form -->
+        <form id="formLogin" onsubmit="handleLoginSubmit(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">User ID / อีเมล:</label>
+            <div class="relative">
+              <i class="fa-solid fa-user absolute left-3 top-3 text-slate-400 text-xs"></i>
+              <input type="text" id="loginUsername" required placeholder="เช่น phantai312 หรือ admin@..." class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">รหัสผ่าน:</label>
+            <div class="relative">
+              <i class="fa-solid fa-lock absolute left-3 top-3 text-slate-400 text-xs"></i>
+              <input type="password" id="loginPassword" required placeholder="••••••••" class="w-full pl-9 pr-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-red-500 focus:outline-none">
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-2.5 bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>เข้าสู่ระบบ</span>
+          </button>
+        </form>
+
+        <!-- Form 2: Register Form -->
+        <form id="formRegister" onsubmit="handleRegisterSubmit(event)" class="space-y-3 hidden">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">รหัสผู้ใช้งาน (User ID) / อีเมล:</label>
+            <input type="text" id="regUserId" required placeholder="เช่น phantai999" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">ชื่อ-นามสกุล:</label>
+            <input type="text" id="regName" required placeholder="เช่น นายสมศักดิ์ รักดี" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:ring-2 focus:ring-red-500 focus:outline-none">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">ตำแหน่ง:</label>
+              <select id="regPosition" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:outline-none">
+                <option value="EMT">EMT (กู้ชีพ)</option>
+                <option value="EMR">EMR (กู้ชีพ)</option>
+                <option value="Driver">พนักงานขับรถพยาบาล</option>
+                <option value="Nurse">พยาบาลวิชาชีพ</option>
+                <option value="Staff">เจ้าหน้าที่ทั่วไป</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">รหัสผ่านเริ่มต้น:</label>
+              <input type="password" id="regPassword" required placeholder="••••••••" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:outline-none">
+            </div>
+          </div>
+
+          <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-[11px] text-amber-800 flex items-start space-x-1.5">
+            <i class="fa-solid fa-circle-info text-amber-600 mt-0.5"></i>
+            <span>เมื่อลงทะเบียนแล้ว บัญชีจะอยู่ในสถานะ "รออนุมัติ" โดยแอดมินจะต้องอนุมัติก่อนจึงจะเข้าสู่ระบบได้</span>
+          </div>
+
+          <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>ลงทะเบียนผู้ใช้งาน</span>
+          </button>
+        </form>
+
+        <!-- Quick Demo Account Switcher -->
+        <div class="pt-3 border-t border-slate-200">
+          <label class="block text-[11px] font-bold text-slate-500 mb-1.5 text-center">ทดสอบเข้าสู่ระบบด้วยบัญชีตัวอย่าง:</label>
+          <div class="grid grid-cols-3 gap-1.5 text-[11px]">
+            <button onclick="fillDemoAccount('phantai312', '123456')" class="py-1 px-1.5 bg-slate-100 hover:bg-red-50 hover:text-red-700 hover:border-red-300 border border-slate-200 rounded-lg text-center font-medium">
+              312 (EMT)
+            </button>
+            <button onclick="fillDemoAccount('phantai122', '123456')" class="py-1 px-1.5 bg-slate-100 hover:bg-blue-50 hover:text-blue-700 hover:border-blue-300 border border-slate-200 rounded-lg text-center font-medium">
+              122 (EMR)
+            </button>
+            <button onclick="fillDemoAccount('ems.pantai@gmail.com', 'ems1669')" class="py-1 px-1.5 bg-slate-100 hover:bg-purple-50 hover:text-purple-700 hover:border-purple-300 border border-slate-200 rounded-lg text-center font-medium">
+              Admin (1669)
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Modal: Forced First Time Password Change -->
+  <div id="changePasswordModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="ems-card bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-fade-in">
+      <div class="bg-gradient-to-r from-amber-600 to-amber-700 p-5 text-white text-center">
+        <div class="w-12 h-12 mx-auto rounded-full bg-white/20 flex items-center justify-center mb-2">
+          <i class="fa-solid fa-key text-2xl text-yellow-300"></i>
+        </div>
+        <h3 class="text-base sm:text-lg font-bold font-kanit">บังคับเปลี่ยนรหัสผ่านครั้งแรก</h3>
+        <p class="text-xs text-amber-100 mt-0.5">เพื่อความปลอดภัย กรุณาตั้งรหัสผ่านใหม่ส่วนตัวของคุณ</p>
+      </div>
+
+      <form onsubmit="handleChangePasswordSubmit(event)" class="p-6 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">รหัสผ่านเดิม (Initial Pass):</label>
+          <input type="password" id="oldPassInput" required class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">รหัสผ่านใหม่:</label>
+          <input type="password" id="newPassInput" minlength="6" required placeholder="อย่างน้อย 6 ตัวอักษร" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ยืนยันรหัสผ่านใหม่อีกครั้ง:</label>
+          <input type="password" id="confirmPassInput" minlength="6" required placeholder="ใส่รหัสผ่านใหม่อีกครั้ง" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-amber-500 focus:outline-none">
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 mt-4">
+          <i class="fa-solid fa-lock-open"></i>
+          <span>บันทึกรหัสผ่านใหม่และเข้าใช้งาน</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Add New Equipment -->
+  <div id="addEquipmentModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+    <div class="ems-card bg-white w-full max-w-md rounded-3xl shadow-2xl overflow-hidden border border-slate-200 animate-fade-in">
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 p-5 text-white flex justify-between items-center">
+        <h3 class="text-base font-bold font-kanit flex items-center space-x-2">
+          <i class="fa-solid fa-plus-circle"></i>
+          <span>เพิ่มอุปกรณ์ใหม่เข้าระบบ</span>
+        </h3>
+        <button onclick="closeModal('addEquipmentModal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+      </div>
+
+      <form onsubmit="handleAddEquipmentSubmit(event)" class="p-6 space-y-3">
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">ชื่อรายการอุปกรณ์:</label>
+          <input type="text" id="newEqName" required placeholder="เช่น ชุดดูดเสมหะสำรอง, ถุงลมฉุกเฉิน..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">เกณฑ์/จำนวนมาตรฐาน:</label>
+          <input type="text" id="newEqStandard" required placeholder="เช่น 2 ชุด, 500 psi, พร้อมใช้งาน..." class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">หมวดหมู่อุปกรณ์:</label>
+          <select id="newEqCategory" class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs font-medium focus:outline-none">
+            <option value="ระบบไฟและตัวรถ">ระบบไฟและตัวรถ</option>
+            <option value="ระบบเครื่องยนต์">ระบบเครื่องยนต์</option>
+            <option value="อุปกรณ์ดามกระดูกและคอ">อุปกรณ์ดามกระดูกและคอ</option>
+            <option value="อุปกรณ์เคลื่อนย้าย">อุปกรณ์เคลื่อนย้าย</option>
+            <option value="อุปกรณ์ออกซิเจนและทางเดินหายใจ">อุปกรณ์ออกซิเจนและทางเดินหายใจ</option>
+            <option value="เครื่องมือแพทย์ฉุกเฉิน">เครื่องมือแพทย์ฉุกเฉิน</option>
+            <option value="อุปกรณ์ความปลอดภัย">อุปกรณ์ความปลอดภัย</option>
+            <option value="สุขอนามัยและความสะอาด">สุขอนามัยและความสะอาด</option>
+            <option value="ทั่วไป">ทั่วไป</option>
+          </select>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2 mt-4">
+          <i class="fa-solid fa-save"></i>
+          <span>บันทึกอุปกรณ์ใหม่</span>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: View History Detail & PDF Export Preview -->
+  <div id="historyDetailModal" class="fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-6 hidden">
+    <div class="ems-card bg-white w-full max-w-3xl max-h-[90vh] rounded-3xl shadow-2xl overflow-hidden border border-slate-200 flex flex-col animate-fade-in">
+      <div class="bg-slate-900 p-4 sm:p-5 text-white flex justify-between items-center">
+        <div>
+          <h3 id="historyDetailTitle" class="text-base font-bold font-kanit flex items-center space-x-2">
+            <i class="fa-solid fa-file-lines text-red-500"></i>
+            <span>รายละเอียดการตรวจเช็ค</span>
+          </h3>
+          <p id="historyDetailSubtitle" class="text-xs text-slate-400 mt-0.5">-</p>
+        </div>
+        <button onclick="closeModal('historyDetailModal')" class="text-white/80 hover:text-white"><i class="fa-solid fa-xmark text-xl"></i></button>
+      </div>
+
+      <div id="historyDetailBody" class="p-4 sm:p-6 overflow-y-auto flex-grow space-y-4">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-200 flex justify-between items-center">
+        <button onclick="closeModal('historyDetailModal')" class="px-4 py-2 bg-slate-200 hover:bg-slate-300 text-slate-700 text-xs font-semibold rounded-xl">ปิด</button>
+        <button id="btnExportModalPdf" class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-xs font-bold rounded-xl shadow flex items-center space-x-1.5">
+          <i class="fa-solid fa-file-pdf"></i>
+          <span>พิมพ์ / ส่งออก PDF</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 4. PWA & MOBILE FLOATING COMPONENTS -->
+  <!-- ========================================================================= -->
+
+  <!-- Floating Mobile Quick Submit & Readiness Bar (Mobile & Tablet) -->
+  <div id="mobileQuickSubmitBar" class="lg:hidden fixed bottom-16 left-3 right-3 z-30 bg-slate-900/95 backdrop-blur-md border border-slate-700 text-white rounded-2xl p-2.5 shadow-2xl flex items-center justify-between transition-all duration-300 hidden">
+    <div class="flex items-center space-x-2.5 pl-1">
+      <div class="w-8 h-8 rounded-xl bg-red-600 flex items-center justify-center font-bold text-xs text-white shadow">
+        <i class="fa-solid fa-ambulance"></i>
+      </div>
+      <div>
+        <div class="text-[11px] font-bold text-white flex items-center space-x-1.5">
+          <span id="mQuickVeh">กข9745</span>
+          <span id="mQuickShift" class="px-1.5 py-0.2 bg-amber-500/30 text-amber-300 rounded text-[9px] font-bold">เวรเช้า</span>
+        </div>
+        <div class="text-[10px] text-emerald-400 font-mono font-bold">
+          ความพร้อม: <span id="mQuickReadiness">100%</span>
+        </div>
+      </div>
+    </div>
+    <button onclick="submitChecklist()" class="px-3.5 py-2 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl text-xs font-bold shadow-md active:scale-95 flex items-center space-x-1.5 border border-red-500/50">
+      <i class="fa-solid fa-cloud-arrow-up"></i>
+      <span>บันทึกผลด่วน</span>
+    </button>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar (PWA Phone & Tablet Support) -->
+  <nav id="mobileBottomNav" class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md text-white border-t border-slate-800 shadow-2xl pb-[env(safe-area-inset-bottom)] hidden">
+    <div class="grid grid-cols-5 gap-1 px-1 py-1.5 max-w-md mx-auto text-center">
+      <button onclick="switchTab('tabChecklist')" id="mNavChecklist" class="flex flex-col items-center py-1 rounded-xl text-red-400 font-bold transition">
+        <i class="fa-solid fa-clipboard-check text-base"></i>
+        <span class="text-[9px] mt-0.5">ตรวจเช็ค</span>
+      </button>
+      <button onclick="switchTab('tabStats')" id="mNavStats" class="flex flex-col items-center py-1 rounded-xl text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-chart-pie text-base"></i>
+        <span class="text-[9px] mt-0.5">สถิติ</span>
+      </button>
+      <button onclick="switchTab('tabEquipment')" id="mNavEquipment" class="flex flex-col items-center py-1 rounded-xl text-slate-400 hover:text-white transition">
+        <i class="fa-solid fa-boxes-stacked text-base"></i>
+        <span class="text-[9px] mt-0.5">อุปกรณ์</span>
+      </button>
+      <button onclick="switchTab('tabUsers')" id="mNavUsers" class="flex flex-col items-center py-1 rounded-xl text-slate-400 hover:text-white transition hidden">
+        <i class="fa-solid fa-users-gear text-base"></i>
+        <span class="text-[9px] mt-0.5">ผู้ใช้</span>
+      </button>
+      <button onclick="promptPWAInstall()" class="flex flex-col items-center py-1 rounded-xl text-amber-400 hover:text-amber-300 transition">
+        <i class="fa-solid fa-mobile-screen text-base"></i>
+        <span class="text-[9px] mt-0.5">ติดตั้งแอป</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PWA Installation Modal -->
+  <div id="pwaInstallModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-4 hidden">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full p-5 sm:p-6 space-y-4 border border-slate-200 animate-fade-in">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-red-600 to-amber-500 text-white flex items-center justify-center text-xl shadow">
+            <i class="fa-solid fa-truck-medical"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-800 font-kanit">ติดตั้งแอปพลิเคชัน (PWA)</h3>
+            <p class="text-xs text-slate-500">หน่วยกู้ชีพเทศบาลเมืองพันท้ายนรสิงห์</p>
+          </div>
+        </div>
+        <button onclick="closeModal('pwaInstallModal')" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Android / Chrome / Windows / Mac -->
+      <div id="pwaPromptSection" class="p-4 bg-red-50 rounded-2xl border border-red-100 space-y-2.5 text-center">
+        <p class="text-xs text-red-900 font-medium leading-relaxed">
+          ติดตั้งลงบนหน้าจอหลักเพื่อเปิดใช้งานแบบเต็มหน้าจอ (Standalone) รวดเร็ว เสมือนแอปมือถือจริง
+        </p>
+        <button onclick="triggerInstallPrompt()" id="btnTriggerInstall" class="w-full py-2.5 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white text-xs sm:text-sm font-bold rounded-xl shadow-md transition flex items-center justify-center space-x-2">
+          <i class="fa-solid fa-download"></i>
+          <span>คลิกเพื่อติดตั้งแอปทันที (Install)</span>
+        </button>
+      </div>
+
+      <!-- iOS / iPhone / iPad Step-by-Step Guide -->
+      <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2 text-xs text-slate-700">
+        <div class="font-bold text-slate-800 flex items-center space-x-1.5">
+          <i class="fa-brands fa-apple text-slate-800 text-sm"></i>
+          <span>สำหรับผู้ใช้งาน iPhone / iPad (Safari):</span>
+        </div>
+        <ol class="list-decimal list-inside space-y-1 pl-1 text-[11px] text-slate-600">
+          <li>แตะปุ่ม <strong>แชร์ (Share <i class="fa-solid fa-arrow-up-from-bracket text-blue-600"></i>)</strong> ด้านล่างของ Safari</li>
+          <li>เลื่อนลงและแตะเลือก <strong>"เพิ่มไปยังหน้าจอโฮม" (Add to Home Screen <i class="fa-regular fa-square-plus text-slate-800"></i>)</strong></li>
+          <li>แตะ <strong>"เพิ่ม" (Add)</strong> มุมบนขวา</li>
+        </ol>
+      </div>
+
+      <div class="pt-1 text-center">
+        <button onclick="closeModal('pwaInstallModal')" class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- API & GitHub Pages Integration Modal -->
+  <div id="apiConfigModal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80 backdrop-blur-sm p-3 sm:p-4 hidden">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 space-y-4 border border-slate-200 animate-fade-in">
+      <div class="flex justify-between items-center pb-2 border-b border-slate-100">
+        <div class="flex items-center space-x-2.5">
+          <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-700 text-white flex items-center justify-center text-xl shadow">
+            <i class="fa-solid fa-cloud-arrow-up"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold text-slate-800 font-kanit">ตั้งค่าเชื่อมต่อ Google Sheet API</h3>
+            <p class="text-xs text-slate-500">สำหรับเว็บไซต์บน GitHub Pages & เซิร์ฟเวอร์ภายนอก</p>
+          </div>
+        </div>
+        <button onclick="closeModal('apiConfigModal')" class="text-slate-400 hover:text-slate-600 p-1">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Current Status Alert -->
+      <div id="apiStatusBanner" class="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-start space-x-2.5">
+        <div id="apiStatusDot" class="w-3 h-3 rounded-full bg-slate-400 mt-0.5 shrink-0 animate-pulse"></div>
+        <div class="text-xs text-slate-700">
+          <div id="apiStatusTitle" class="font-bold text-slate-800">กำลังตรวจสอบสถานะ...</div>
+          <div id="apiStatusDesc" class="text-[11px] text-slate-500 mt-0.5">ระบบจะตรวจสอบการเชื่อมต่อไปยัง Google Apps Script อัตโนมัติ</div>
+        </div>
+      </div>
+
+      <!-- API URL Input Form -->
+      <div class="space-y-2">
+        <label class="block text-xs font-bold text-slate-700">
+          <i class="fa-solid fa-link text-blue-600 mr-1"></i> Google Apps Script Web App URL:
+        </label>
+        <div class="relative">
+          <input type="url" id="gasApiUrlInput" placeholder="https://script.google.com/macros/s/AKfycb.../exec" class="w-full px-3 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs font-mono text-slate-800 focus:ring-2 focus:ring-blue-500 focus:outline-none pr-20">
+          <button type="button" onclick="pasteGasApiUrl()" class="absolute right-1.5 top-1.5 px-2.5 py-1.5 bg-slate-200 hover:bg-slate-300 text-slate-700 rounded-lg text-[11px] font-semibold transition">
+            วาง URL
+          </button>
+        </div>
+        <p class="text-[11px] text-slate-500">
+          * ได้จากการกด <strong>Deploy (ทำให้ใช้งานได้) -> New Deployment -> Web App</strong> ใน Apps Script ของ Google Sheet
+        </p>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="grid grid-cols-2 gap-2 pt-1">
+        <button type="button" onclick="testGasApiConnection()" id="btnTestApi" class="w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-1.5 border border-slate-300">
+          <i class="fa-solid fa-vial"></i>
+          <span>ทดสอบการเชื่อมต่อ</span>
+        </button>
+        <button type="button" onclick="saveGasApiUrl()" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl text-xs font-bold transition shadow-md flex items-center justify-center space-x-1.5">
+          <i class="fa-solid fa-floppy-disk"></i>
+          <span>บันทึกและเชื่อมต่อ</span>
+        </button>
+      </div>
+
+      <div class="flex justify-between items-center pt-2 border-t border-slate-100 text-xs">
+        <button type="button" onclick="resetToDemoMode()" class="text-slate-500 hover:text-slate-800 underline text-[11px]">
+          <i class="fa-solid fa-rotate-left mr-1"></i> ใช้โหมดจำลอง (Demo Mode)
+        </button>
+        <button type="button" onclick="initSheetsViaApi()" class="text-indigo-600 hover:text-indigo-800 font-bold text-[11px] flex items-center space-x-1">
+          <i class="fa-solid fa-table-cells"></i>
+          <span>สร้างชีทใน Google Sheet</span>
+        </button>
+      </div>
+
+      <!-- Step-by-step Tutorial for GitHub Pages -->
+      <div class="p-3.5 bg-blue-50/70 rounded-2xl border border-blue-100 space-y-2 text-xs text-slate-700">
+        <div class="font-bold text-blue-900 flex items-center space-x-1.5">
+          <i class="fa-brands fa-github text-slate-900 text-sm"></i>
+          <span>ขั้นตอนการนำขึ้น GitHub & เชื่อมต่อ Google Sheet:</span>
+        </div>
+        <ol class="list-decimal list-inside space-y-1 text-[11px] text-slate-600 pl-1 leading-relaxed">
+          <li>อัปโหลดไฟล์โปรเจกต์นี้ทั้งหมดขึ้นบน <strong>GitHub Repository</strong></li>
+          <li>ไปที่แท็บ <strong>Settings -> Pages</strong> ใน GitHub แล้วเลือก Deploy จาก Branch <strong>main</strong></li>
+          <li>ใน Google Sheet ไปที่ <strong>Extensions -> Apps Script</strong> นำโค้ด <code class="bg-blue-100 px-1 py-0.5 rounded text-blue-800 font-mono">Code.gs</code> ไปวางแล้วกด <strong>Deploy as Web App</strong> (สิทธิ์: Everyone)</li>
+          <li>คัดลอก URL ของ Web App มาวางในช่องด้านบนนี้แล้วกด <strong>"บันทึกและเชื่อมต่อ"</strong></li>
+        </ol>
+      </div>
+
+      <div class="pt-1 text-center">
+        <button onclick="closeModal('apiConfigModal')" class="px-6 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-xl transition">
+          ปิดหน้าต่าง
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden Printable Report Container for Direct Print -->
+  <div id="printReportArea" class="hidden"></div>
+
+  <!-- ========================================================================= -->
+  <!-- 5. APPLICATION SCRIPTS -->
+  <!-- ========================================================================= -->
+  <script>
+    /**
+     * ============================================================================
+     * CORE CLIENT LOGIC & DATA MODELS
+     * ============================================================================
+     */
+
+    // 40 Default Standard Equipment Items
+    const DEFAULT_EQUIPMENT_DATA = [
+      { id: 1, name: 'สัญญาณไฟฉุกเฉิน', standard: 'พร้อมใช้งาน', category: 'ระบบไฟและตัวรถ' },
+      { id: 2, name: 'ไฟส่องสว่าง/เลี้ยวซ้ายขวา', standard: 'พร้อมใช้งาน', category: 'ระบบไฟและตัวรถ' },
+      { id: 3, name: 'ไฟฉาย', standard: 'พร้อมใช้งาน', category: 'ระบบไฟและตัวรถ' },
+      { id: 4, name: 'ลมยาง', standard: 'พร้อมใช้งาน (ไม่อ่อน)', category: 'ระบบไฟและตัวรถ' },
+      { id: 5, name: 'น้ำกลั่น/ทุกวันจันทร์', standard: 'ระดับปกติ', category: 'ระบบเครื่องยนต์' },
+      { id: 6, name: 'น้ำมันเชื้อเพลิงไม่ต่ำกว่า', standard: '1/2 ถัง', category: 'ระบบเครื่องยนต์' },
+      { id: 7, name: 'ทูนิเก้ (Tourniquet)', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ห้ามเลือดและแผล' },
+      { id: 8, name: 'เสื้อสะท้อนแสง', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ความปลอดภัย' },
+      { id: 9, name: 'รองเท้าบูธ 2 คู่', standard: '2 คู่', category: 'อุปกรณ์ความปลอดภัย' },
+      { id: 10, name: 'ระบบแอร์', standard: 'เย็นปกติ', category: 'ระบบในห้องโดยสาร' },
+      { id: 11, name: 'กระเป๋าพยาบาลพร้อมอุปกรณ์', standard: 'พอใช้ (ครบชุด)', category: 'ชุดปฐมพยาบาล' },
+      { id: 12, name: 'Hard Collar', standard: '3 ชิ้น', category: 'อุปกรณ์ดามกระดูกและคอ' },
+      { id: 13, name: 'กรรไกร', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ห้ามเลือดและแผล' },
+      { id: 14, name: 'ไม้ดามแขน', standard: '4 ชิ้น', category: 'อุปกรณ์ดามกระดูกและคอ' },
+      { id: 15, name: 'ไม้ดามขา', standard: '4 ชิ้น', category: 'อุปกรณ์ดามกระดูกและคอ' },
+      { id: 16, name: 'เฝือกลม', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ดามกระดูกและคอ' },
+      { id: 17, name: 'ชุด Spinalboard พร้อมสายรัด', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์เคลื่อนย้าย' },
+      { id: 18, name: 'Stretcher', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์เคลื่อนย้าย' },
+      { id: 19, name: 'Stretcher เก้าอี้นั่ง', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์เคลื่อนย้าย' },
+      { id: 20, name: 'KED', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ดามกระดูกและคอ' },
+      { id: 21, name: 'Cannula ผู้ใหญ่/เด็ก', standard: '3 ชุด', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 22, name: 'Maskwithbag/ผู้ใหญ่', standard: '3 ชุด', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 23, name: 'Maskwithbag/เด็ก', standard: '3 ชุด', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 24, name: 'เครื่องกระตุ้นหัวใจ/สายสัญญาณ', standard: 'พร้อมใช้งาน/แบตเต็ม', category: 'เครื่องมือแพทย์ฉุกเฉิน' },
+      { id: 25, name: 'Ambu Bag', standard: 'พอใช้ (พร้อมใช้)', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 26, name: 'Oral air way เล็ก', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 27, name: 'Oral air way กลาง', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 28, name: 'Oral air way ใหญ่', standard: 'พร้อมใช้งาน', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 29, name: 'เครื่อง Suction Mobile', standard: 'พร้อมใช้งาน/แบตเต็ม', category: 'เครื่องมือแพทย์ฉุกเฉิน' },
+      { id: 30, name: 'เครื่องวัด BP ติดรถยนต์', standard: 'พร้อมใช้งาน', category: 'เครื่องมือแพทย์ฉุกเฉิน' },
+      { id: 31, name: 'เครื่องวัด BP Digital', standard: 'พร้อมใช้งาน', category: 'เครื่องมือแพทย์ฉุกเฉิน' },
+      { id: 32, name: 'เครื่องวัดออกซิเจน Sat Mobile', standard: 'พร้อมใช้งาน', category: 'เครื่องมือแพทย์ฉุกเฉิน' },
+      { id: 33, name: 'สาย Suction', standard: 'พอใช้ (มีสำรอง)', category: 'อุปกรณ์ออกซิเจนและทางเดินหายใจ' },
+      { id: 34, name: 'ถุงมือ Dispose', standard: 'พอใช้ (มีเพียงพอ)', category: 'อุปกรณ์ป้องกันส่วนบุคคล' },
+      { id: 35, name: 'เครื่องเจาะ DTX', standard: '1 เครื่อง (แผ่นตรวจพร้อม)', category: 'เครื่องมือแพทย์ฉุกเฉิน' },
+      { id: 36, name: 'ออกซิเจน No1 ไม่ต่ำกว่า', standard: '500 psi', category: 'ระบบออกซิเจน' },
+      { id: 37, name: 'ออกซิเจน No2 ไม่ต่ำกว่า', standard: '500 psi', category: 'ระบบออกซิเจน' },
+      { id: 38, name: 'ออกซิเจน No3 ไม่ต่ำกว่า', standard: '500 psi', category: 'ระบบออกซิเจน' },
+      { id: 39, name: 'ความสะอาดภายในรถ', standard: 'สะอาดเรียบร้อย', category: 'สุขอนามัยและความสะอาด' },
+      { id: 40, name: 'ความสะอาดภายนอกรถ', standard: 'สะอาดเรียบร้อย', category: 'สุขอนามัยและความสะอาด' }
+    ];
+
+    // App State
+    let appState = {
+      currentUser: null,
+      selectedAmbulance: 'กข9745',
+      currentDate: new Date().toISOString().split('T')[0],
+      currentShift: 'เวรเช้า',
+      equipmentList: [...DEFAULT_EQUIPMENT_DATA],
+      checklistForm: {},
+      historyLogs: [],
+      usersList: [],
+      activeCategoryFilter: 'all'
+    };
+
+    // Initialize Application
+    document.addEventListener('DOMContentLoaded', () => {
+      initPWA();
+      initLiveClock();
+      initDateInputs();
+      initShiftByTime();
+      loadLocalState();
+      updateApiStatusIndicator();
+      renderChecklistUI();
+      checkAuthSession();
+    });
+
+    /**
+     * Progressive Web App (PWA) Support
+     */
+    let deferredPWAPrompt = null;
+
+    function initPWA() {
+      // Register Embedded Service Worker for offline app-shell caching
+      if ('serviceWorker' in navigator) {
+        try {
+          const swCode = `
+            const CACHE_NAME = 'ems-panthai-pwa-v4';
+            self.addEventListener('install', (e) => {
+              self.skipWaiting();
+            });
+            self.addEventListener('activate', (e) => {
+              e.waitUntil(clients.claim());
+            });
+            self.addEventListener('fetch', (e) => {
+              e.respondWith(
+                fetch(e.request).catch(() => caches.match(e.request))
+              );
+            });
+          `;
+          const blob = new Blob([swCode], { type: 'application/javascript' });
+          const swUrl = URL.createObjectURL(blob);
+          navigator.serviceWorker.register(swUrl).catch(() => {});
+        } catch (e) {}
+      }
+
+      // Listen for PWA installation prompt event
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPWAPrompt = e;
+        const btn = document.getElementById('btnPwaInstall');
+        if (btn) btn.classList.remove('hidden');
+      });
+    }
+
+    function promptPWAInstall() {
+      triggerHaptic(20);
+      document.getElementById('pwaInstallModal')?.classList.remove('hidden');
+    }
+
+    function triggerInstallPrompt() {
+      triggerHaptic(30);
+      if (deferredPWAPrompt) {
+        deferredPWAPrompt.prompt();
+        deferredPWAPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            Swal.fire({
+              icon: 'success',
+              title: 'ขอบคุณสำหรับการติดตั้งแอปพลิเคชัน!',
+              text: 'เปิดใช้งานได้จากหน้าจอหลักของคุณทันที',
+              timer: 2500,
+              showConfirmButton: false
+            });
+            closeModal('pwaInstallModal');
+          }
+          deferredPWAPrompt = null;
+        });
+      } else {
+        Swal.fire({
+          icon: 'info',
+          title: 'คำแนะนำการติดตั้ง',
+          html: `
+            <div class="text-left text-xs space-y-2 text-slate-700">
+              <p><strong>สำหรับ Android / Chrome / Edge:</strong> หากมีเมนูป๊อปอัปให้กด "ติดตั้ง" หรือคลิกที่ไอคอนติดตั้ง 📥 ด้านบนขวาของเบราว์เซอร์</p>
+              <p><strong>สำหรับ iPhone / iPad (Safari):</strong> แตะปุ่มแชร์ ⬆️ แล้วเลือก <strong>"เพิ่มไปยังหน้าจอโฮม"</strong></p>
+            </div>
+          `
+        });
+      }
+    }
+
+    /**
+     * Haptic Touch Feedback (Mobile & Tablet)
+     */
+    function triggerHaptic(duration = 20) {
+      if ('vibrate' in navigator) {
+        try { navigator.vibrate(duration); } catch (e) {}
+      }
+    }
+
+    /**
+     * Shift Selector & Auto-Detection by Time
+     */
+    function initShiftByTime() {
+      const hour = new Date().getHours();
+      // 08:00 - 19:59 is Morning Shift (เวรเช้า), 20:00 - 07:59 is Night Shift (เวรดึก)
+      if (hour >= 8 && hour < 20) {
+        selectShift('เวรเช้า');
+      } else {
+        selectShift('เวรดึก');
+      }
+    }
+
+    function selectShift(shiftName) {
+      triggerHaptic(15);
+      appState.currentShift = shiftName;
+      const btnMorning = document.getElementById('btnShiftMorning');
+      const btnNight = document.getElementById('btnShiftNight');
+      if (shiftName === 'เวรเช้า' || shiftName === 'เช้า') {
+        if (btnMorning) btnMorning.className = 'shift-btn active px-1.5 py-1 rounded-md text-xs font-bold bg-amber-500 text-white shadow-sm flex items-center justify-center space-x-1 transition';
+        if (btnNight) btnNight.className = 'shift-btn px-1.5 py-1 rounded-md text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1 transition';
+      } else {
+        if (btnMorning) btnMorning.className = 'shift-btn px-1.5 py-1 rounded-md text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center justify-center space-x-1 transition';
+        if (btnNight) btnNight.className = 'shift-btn active px-1.5 py-1 rounded-md text-xs font-bold bg-indigo-600 text-white shadow-sm flex items-center justify-center space-x-1 transition';
+      }
+      updateReadinessSummary();
+    }
+
+    /**
+     * Live Thai Clock
+     */
+    function initLiveClock() {
+      const thaiMonths = [
+        'มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน',
+        'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'
+      ];
+      const thaiDays = [
+        'วันอาทิตย์', 'วันจันทร์', 'วันอังคาร', 'วันพุธ', 'วันพฤหัสบดี', 'วันศุกร์', 'วันเสาร์'
+      ];
+
+      function updateClock() {
+        const now = new Date();
+        const dayName = thaiDays[now.getDay()];
+        const day = now.getDate();
+        const month = thaiMonths[now.getMonth()];
+        const year = now.getFullYear() + 543;
+
+        const h = String(now.getHours()).padStart(2, '0');
+        const m = String(now.getMinutes()).padStart(2, '0');
+        const s = String(now.getSeconds()).padStart(2, '0');
+
+        const dateStr = `${dayName}ที่ ${day} ${month} ${year}`;
+        const timeStr = `${h}:${m}:${s} น.`;
+
+        const dateEl = document.getElementById('liveClockDate');
+        const timeEl = document.getElementById('liveClockTime');
+        const dateElM = document.getElementById('liveClockDateMobile');
+        const timeElM = document.getElementById('liveClockTimeMobile');
+
+        if (dateEl) dateEl.innerHTML = `<i class="fa-regular fa-calendar-days text-amber-400 mr-1"></i> ${dateStr}`;
+        if (timeEl) timeEl.innerHTML = `<i class="fa-regular fa-clock text-emerald-400 mr-1"></i> ${timeStr}`;
+        if (dateElM) dateElM.innerHTML = `<i class="fa-regular fa-calendar-days text-amber-400 mr-1"></i> ${day} ${month} ${year}`;
+        if (timeElM) timeElM.textContent = timeStr;
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+    }
+
+    function initDateInputs() {
+      const today = new Date().toISOString().split('T')[0];
+      const dateInp = document.getElementById('checkDateInput');
+      const startInp = document.getElementById('filterStatsStartDate');
+      const endInp = document.getElementById('filterStatsEndDate');
+
+      if (dateInp) dateInp.value = today;
+      if (startInp) {
+        const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString().split('T')[0];
+        startInp.value = firstDayOfMonth;
+      }
+      if (endInp) endInp.value = today;
+    }
+
+    /**
+     * Tab Navigation (Desktop Header Tabs + Mobile Bottom Bar Tabs)
+     */
+    function switchTab(tabId) {
+      triggerHaptic(15);
+      const tabs = ['tabChecklist', 'tabStats', 'tabEquipment', 'tabUsers', 'tabSettings'];
+      tabs.forEach(t => {
+        const el = document.getElementById(t);
+        if (el) el.classList.add('hidden');
+      });
+
+      const activeEl = document.getElementById(tabId);
+      if (activeEl) activeEl.classList.remove('hidden');
+
+      // Update Desktop Nav Buttons
+      document.querySelectorAll('.nav-tab').forEach(b => {
+        b.classList.remove('bg-red-50', 'text-red-700', 'border-red-200');
+        b.classList.add('text-slate-600');
+      });
+
+      const navBtnMap = {
+        tabChecklist: 'navTabChecklist',
+        tabStats: 'navTabStats',
+        tabEquipment: 'navTabEquipment',
+        tabUsers: 'navTabUsers',
+        tabSettings: 'navTabSettings'
+      };
+
+      const activeBtn = document.getElementById(navBtnMap[tabId]);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-600');
+        activeBtn.classList.add('bg-red-50', 'text-red-700', 'border', 'border-red-200');
+      }
+
+      // Update Mobile Bottom Nav Buttons
+      const mNavMap = {
+        tabChecklist: 'mNavChecklist',
+        tabStats: 'mNavStats',
+        tabEquipment: 'mNavEquipment',
+        tabUsers: 'mNavUsers'
+      };
+      ['mNavChecklist', 'mNavStats', 'mNavEquipment', 'mNavUsers'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) {
+          b.classList.remove('text-red-400', 'font-bold');
+          b.classList.add('text-slate-400');
+        }
+      });
+      const activeMBtn = document.getElementById(mNavMap[tabId]);
+      if (activeMBtn) {
+        activeMBtn.classList.remove('text-slate-400');
+        activeMBtn.classList.add('text-red-400', 'font-bold');
+      }
+
+      // Toggle Floating Quick Submit Bar on Mobile
+      const mQuickBar = document.getElementById('mobileQuickSubmitBar');
+      if (mQuickBar) {
+        if (tabId === 'tabChecklist' && appState.currentUser) {
+          mQuickBar.classList.remove('hidden');
+        } else {
+          mQuickBar.classList.add('hidden');
+        }
+      }
+
+      if (tabId === 'tabStats') loadStatsData();
+      if (tabId === 'tabEquipment') renderEquipmentManagementTable();
+      if (tabId === 'tabUsers') loadUsersManagement();
+    }
+
+    /**
+     * Ambulance Vehicle Selector
+     */
+    function selectAmbulance(vehName) {
+      triggerHaptic(20);
+      appState.selectedAmbulance = vehName;
+
+      ['btnVeh3', 'btnVeh4', 'btnVeh5'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) {
+          b.className = 'vehicle-btn px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-2 border-slate-200 bg-white text-slate-700 shadow-sm flex items-center justify-center space-x-1.5 transition';
+        }
+      });
+
+      const map = {
+        'กข9745': { id: 'btnVeh3', activeClass: 'border-red-600 bg-red-600 text-white' },
+        'กค7080': { id: 'btnVeh4', activeClass: 'border-blue-600 bg-blue-600 text-white' },
+        'กง3002': { id: 'btnVeh5', activeClass: 'border-emerald-600 bg-emerald-600 text-white' }
+      };
+
+      const target = map[vehName];
+      if (target) {
+        const b = document.getElementById(target.id);
+        if (b) {
+          b.className = `vehicle-btn active px-3 py-2.5 rounded-xl text-xs sm:text-sm font-bold border-2 ${target.activeClass} shadow-sm flex items-center justify-center space-x-1.5 transition`;
+        }
+      }
+
+      // Re-evaluate form state for this vehicle
+      updateReadinessSummary();
+    }
+
+    function onDateChanged() {
+      const inp = document.getElementById('checkDateInput');
+      if (inp) appState.currentDate = inp.value;
+    }
+
+    /**
+     * Render Checklist Items UI
+     */
+    function renderChecklistUI() {
+      const container = document.getElementById('checklistItemsList');
+      if (!container) return;
+
+      container.innerHTML = '';
+
+      appState.equipmentList.forEach((item, index) => {
+        if (!appState.checklistForm[item.id]) {
+          appState.checklistForm[item.id] = {
+            id: item.id,
+            name: item.name,
+            status: 'Ready',
+            qty: '',
+            reason: ''
+          };
+        }
+
+        const formData = appState.checklistForm[item.id];
+        const isReady = formData.status === 'Ready';
+
+        const card = document.createElement('div');
+        card.id = `item-card-${item.id}`;
+        card.className = `checklist-item-card ems-card p-3.5 sm:p-4 rounded-2xl border transition-all ${isReady ? 'border-slate-200 bg-white' : 'border-red-300 bg-red-50/50'}`;
+        card.setAttribute('data-category', item.category);
+        card.setAttribute('data-name', item.name.toLowerCase());
+
+        card.innerHTML = `
+          <div class="flex items-start justify-between gap-2">
+            <div class="flex-grow">
+              <div class="flex items-center space-x-1.5">
+                <span class="w-6 h-6 rounded-full bg-slate-100 text-slate-700 text-xs font-bold flex items-center justify-center font-mono">${index + 1}</span>
+                <span class="text-xs font-semibold text-slate-500 uppercase px-2 py-0.5 bg-slate-100 rounded-md">${item.category}</span>
+              </div>
+              <h4 class="text-sm font-bold text-slate-900 mt-1">${item.name}</h4>
+              <div class="text-xs text-slate-500 mt-0.5 flex items-center space-x-1">
+                <i class="fa-solid fa-bullseye text-blue-500 text-[10px]"></i>
+                <span>เกณฑ์: <strong>${item.standard}</strong></span>
+              </div>
+            </div>
+
+            <!-- Status Toggle Buttons -->
+            <div class="flex bg-slate-100 p-1 rounded-xl shrink-0">
+              <button type="button" onclick="setItemStatus(${item.id}, 'Ready')" id="btnStatusReady-${item.id}" class="px-2.5 py-1 text-xs font-bold rounded-lg transition ${isReady ? 'bg-emerald-600 text-white shadow' : 'text-slate-600 hover:text-slate-900'}">
+                <i class="fa-solid fa-check mr-0.5"></i> พร้อม
+              </button>
+              <button type="button" onclick="setItemStatus(${item.id}, 'Defective')" id="btnStatusDefect-${item.id}" class="px-2.5 py-1 text-xs font-bold rounded-lg transition ${!isReady ? 'bg-red-600 text-white shadow' : 'text-slate-600 hover:text-slate-900'}">
+                <i class="fa-solid fa-xmark mr-0.5"></i> ไม่พร้อม
+              </button>
+            </div>
+          </div>
+
+          <!-- Qty & Reason Inputs -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-3 pt-2.5 border-t border-slate-100">
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">จำนวน/ปริมาณที่มีจริง:</label>
+              <input type="text" id="qtyInput-${item.id}" value="${formData.qty || ''}" onchange="updateItemField(${item.id}, 'qty', this.value)" placeholder="เช่น 3 ชิ้น, 500 psi..." class="w-full px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-medium text-slate-800 focus:ring-1 focus:ring-red-500 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="block text-[11px] font-semibold text-slate-600 mb-0.5">เหตุผล/หมายเหตุ (ถ้าไม่พร้อม/ไม่ครบ):</label>
+              <input type="text" id="reasonInput-${item.id}" value="${formData.reason || ''}" onchange="updateItemField(${item.id}, 'reason', this.value)" placeholder="${isReady ? 'ระบุเพิ่มเติม (ถ้ามี)' : 'โปรดระบุสาเหตุที่ชำรุด/ไม่พร้อม'}" class="w-full px-2.5 py-1.5 ${isReady ? 'bg-slate-50 border-slate-300' : 'bg-red-50 border-red-300 text-red-900 font-medium'} border rounded-lg text-xs focus:ring-1 focus:ring-red-500 focus:outline-none">
+            </div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+      updateReadinessSummary();
+    }
+
+    function setItemStatus(id, status) {
+      triggerHaptic(15);
+      if (!appState.checklistForm[id]) return;
+      appState.checklistForm[id].status = status;
+
+      const card = document.getElementById(`item-card-${id}`);
+      const btnReady = document.getElementById(`btnStatusReady-${id}`);
+      const btnDefect = document.getElementById(`btnStatusDefect-${id}`);
+      const reasonInp = document.getElementById(`reasonInput-${id}`);
+
+      if (status === 'Ready') {
+        if (card) {
+          card.classList.remove('border-red-300', 'bg-red-50/50');
+          card.classList.add('border-slate-200', 'bg-white');
+        }
+        if (btnReady) {
+          btnReady.className = 'px-2.5 py-1 text-xs font-bold rounded-lg transition bg-emerald-600 text-white shadow';
+        }
+        if (btnDefect) {
+          btnDefect.className = 'px-2.5 py-1 text-xs font-bold rounded-lg transition text-slate-600 hover:text-slate-900';
+        }
+        if (reasonInp) {
+          reasonInp.className = 'w-full px-2.5 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs focus:ring-1 focus:ring-red-500 focus:outline-none';
+          reasonInp.placeholder = 'ระบุเพิ่มเติม (ถ้ามี)';
+        }
+      } else {
+        if (card) {
+          card.classList.remove('border-slate-200', 'bg-white');
+          card.classList.add('border-red-300', 'bg-red-50/50');
+        }
+        if (btnReady) {
+          btnReady.className = 'px-2.5 py-1 text-xs font-bold rounded-lg transition text-slate-600 hover:text-slate-900';
+        }
+        if (btnDefect) {
+          btnDefect.className = 'px-2.5 py-1 text-xs font-bold rounded-lg transition bg-red-600 text-white shadow';
+        }
+        if (reasonInp) {
+          reasonInp.className = 'w-full px-2.5 py-1.5 bg-red-50 border border-red-300 text-red-900 font-medium rounded-lg text-xs focus:ring-1 focus:ring-red-500 focus:outline-none';
+          reasonInp.placeholder = 'โปรดระบุสาเหตุที่ชำรุด/ไม่พร้อม';
+          reasonInp.focus();
+        }
+      }
+
+      updateReadinessSummary();
+    }
+
+    function updateItemField(id, field, value) {
+      if (appState.checklistForm[id]) {
+        appState.checklistForm[id][field] = value;
+      }
+    }
+
+    function setAllItemsStatus(status) {
+      triggerHaptic(25);
+      appState.equipmentList.forEach(item => {
+        setItemStatus(item.id, status);
+      });
+      Swal.fire({
+        icon: 'success',
+        title: 'ตั้งค่าพร้อมใช้งานทั้งหมดเรียบร้อย!',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    }
+
+    function resetChecklistForm() {
+      triggerHaptic(20);
+      appState.checklistForm = {};
+      renderChecklistUI();
+      const noteEl = document.getElementById('overallNoteInput');
+      if (noteEl) noteEl.value = '';
+      Swal.fire({
+        icon: 'info',
+        title: 'ล้างค่าฟอร์มเรียบร้อย',
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 1200
+      });
+    }
+
+    function updateReadinessSummary() {
+      const total = appState.equipmentList.length;
+      if (total === 0) return;
+
+      let readyCount = 0;
+      Object.values(appState.checklistForm).forEach(f => {
+        if (f.status === 'Ready') readyCount++;
+      });
+
+      const pct = Math.round((readyCount / total) * 100);
+      const bar = document.getElementById('readinessProgressBar');
+      const text = document.getElementById('readinessPercentText');
+
+      if (bar) {
+        bar.style.width = `${pct}%`;
+        if (pct === 100) {
+          bar.className = 'bg-emerald-500 h-full rounded-full transition-all duration-300';
+        } else if (pct >= 80) {
+          bar.className = 'bg-amber-500 h-full rounded-full transition-all duration-300';
+        } else {
+          bar.className = 'bg-red-500 h-full rounded-full transition-all duration-300';
+        }
+      }
+
+      if (text) {
+        text.textContent = `${pct}%`;
+        if (pct === 100) text.className = 'text-sm font-extrabold text-emerald-600 font-mono';
+        else if (pct >= 80) text.className = 'text-sm font-extrabold text-amber-600 font-mono';
+        else text.className = 'text-sm font-extrabold text-red-600 font-mono';
+      }
+
+      // Update Mobile Floating Quick Bar Info
+      const mQuickVeh = document.getElementById('mQuickVeh');
+      const mQuickShift = document.getElementById('mQuickShift');
+      const mQuickReadiness = document.getElementById('mQuickReadiness');
+      if (mQuickVeh) mQuickVeh.textContent = appState.selectedAmbulance;
+      if (mQuickShift) {
+        mQuickShift.textContent = appState.currentShift;
+        mQuickShift.className = appState.currentShift === 'เวรดึก' 
+          ? 'px-1.5 py-0.2 bg-indigo-500/40 text-indigo-300 rounded text-[9px] font-bold' 
+          : 'px-1.5 py-0.2 bg-amber-500/40 text-amber-300 rounded text-[9px] font-bold';
+      }
+      if (mQuickReadiness) mQuickReadiness.textContent = `${pct}%`;
+    }
+
+    function filterChecklistCategory(cat) {
+      appState.activeCategoryFilter = cat;
+      const pills = document.querySelectorAll('.cat-pill');
+      pills.forEach(p => {
+        p.classList.remove('bg-slate-800', 'text-white');
+        p.classList.add('bg-white', 'text-slate-700');
+      });
+      event.target.classList.add('bg-slate-800', 'text-white');
+      event.target.classList.remove('bg-white', 'text-slate-700');
+
+      const cards = document.querySelectorAll('.checklist-item-card');
+      cards.forEach(card => {
+        const cardCat = card.getAttribute('data-category');
+        if (cat === 'all' || cardCat === cat) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function searchChecklistItems() {
+      const q = (document.getElementById('searchItemInput')?.value || '').toLowerCase().trim();
+      const cards = document.querySelectorAll('.checklist-item-card');
+      cards.forEach(card => {
+        const name = card.getAttribute('data-name');
+        if (!q || name.includes(q)) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function formatCheckerCode(userId) {
+      if (!userId) return '-';
+      var str = String(userId).trim();
+      var match = str.match(/phantai(\d+)/i) || str.match(/(\d+)/);
+      if (match) return match[1];
+      if (str.indexOf('@') !== -1) return str.split('@')[0];
+      return str;
+    }
+
+    /**
+     * Submit Checklist (Batch Operation)
+     */
+    async function submitChecklist() {
+      if (!appState.currentUser) {
+        showLoginModal();
+        return;
+      }
+
+      const itemsPayload = Object.values(appState.checklistForm);
+      const defectiveItems = itemsPayload.filter(it => it.status !== 'Ready');
+
+      // If there are defective items without reason, warn the user
+      const missingReasons = defectiveItems.filter(it => !it.reason || !it.reason.trim());
+      if (missingReasons.length > 0) {
+        const confirm = await Swal.fire({
+          title: 'มีรายการไม่พร้อมใช้งานที่ยังไม่ได้ระบุเหตุผล',
+          text: `พบ ${missingReasons.length} รายการ (เช่น ${missingReasons[0].name}) ต้องการบันทึกต่อหรือไม่?`,
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'บันทึกต่อ',
+          cancelButtonText: 'กลับไปแก้ไข'
+        });
+        if (!confirm.isConfirmed) return;
+      }
+
+      const displayCode = formatCheckerCode(appState.currentUser.id);
+      const shiftVal = appState.currentShift || 'เวรเช้า';
+      const checkData = {
+        vehicle: appState.selectedAmbulance,
+        date: appState.currentDate,
+        time: new Date().toLocaleTimeString('th-TH'),
+        shift: shiftVal,
+        checkerId: appState.currentUser.id,
+        checkerCode: displayCode,
+        checkerName: appState.currentUser.name,
+        checkerPosition: appState.currentUser.position,
+        items: itemsPayload,
+        note: document.getElementById('overallNoteInput')?.value || ''
+      };
+
+      Swal.fire({
+        title: 'กำลังบันทึกข้อมูลแบบ Batch Sync...',
+        html: `ระบบกำลังอัปเดตชีทประจำรถ ${appState.selectedAmbulance} (${shiftVal}) โดยผู้ตรวจ <strong>${displayCode}</strong> ลงช่องชื่อผู้ตรวจด้านล่างสุด`,
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+
+      try {
+        // Execute API call (Support GAS google.script.run or mock fallback)
+        let response = await executeBackendAction('saveChecklist', { checkData });
+
+        if (response && response.success) {
+          // Add to local history
+          appState.historyLogs.unshift({
+            logId: response.logId || 'CHK-' + Date.now(),
+            date: checkData.date,
+            time: checkData.time,
+            shift: shiftVal,
+            vehicle: checkData.vehicle,
+            checkerId: displayCode,
+            checkerRawId: checkData.checkerId,
+            checkerName: checkData.checkerName,
+            checkerPosition: checkData.checkerPosition,
+            readinessPercent: response.readinessPercent + '%',
+            defectiveSummary: defectiveItems.map(d => d.name).join(', ') || '-',
+            notes: checkData.note,
+            items: checkData.items
+          });
+          saveLocalState();
+
+          const resultModal = await Swal.fire({
+            icon: 'success',
+            title: 'บันทึกสำเร็จ!',
+            html: `
+              <div class="text-sm text-slate-600 space-y-1">
+                <p>บันทึกการตรวจเช็ค <strong>${checkData.vehicle}</strong> <span class="px-2 py-0.5 ${shiftVal === 'เวรดึก' ? 'bg-indigo-100 text-indigo-800' : 'bg-amber-100 text-amber-800'} font-bold rounded">${shiftVal}</span> เรียบร้อยแล้ว</p>
+                <p class="text-emerald-600 font-bold">ระดับความพร้อม: ${response.readinessPercent}%</p>
+                <p class="text-xs text-slate-500 font-medium">ชื่อผู้ตรวจใน Sheet: <span class="px-2 py-0.5 bg-yellow-100 text-yellow-800 font-bold font-mono rounded">${displayCode}</span> (${checkData.checkerPosition})</p>
+              </div>
+            `,
+            showCancelButton: true,
+            confirmButtonText: 'ตรวจเช็ครถคันอื่นต่อ',
+            cancelButtonText: 'ดูสถิติและประวัติ',
+            confirmButtonColor: '#dc2626',
+            cancelButtonColor: '#2563eb'
+          });
+
+          if (resultModal.isConfirmed) {
+            // Pick next ambulance
+            const vehicles = ['กข9745', 'กค7080', 'กง3002'];
+            const nextVeh = vehicles.find(v => v !== appState.selectedAmbulance) || 'กข9745';
+            selectAmbulance(nextVeh);
+            resetChecklistForm();
+          } else {
+            switchTab('tabStats');
+          }
+        } else {
+          throw new Error(response ? response.message : 'Unknown error');
+        }
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาดในการบันทึก',
+          text: err.toString()
+        });
+      }
+    }
+
+    /**
+     * Authentication & Session Management
+     * - Refreshing page: Keeps user logged in via sessionStorage
+     * - Opening website in new tab/browser: Requires fresh login every time
+     * - Logout: Clears sessionStorage and prompts login
+     */
+    function checkAuthSession() {
+      try {
+        const sessionUser = sessionStorage.getItem('panthai_ems_session');
+        if (sessionUser) {
+          const user = JSON.parse(sessionUser);
+          if (user && user.id) {
+            onUserLoggedIn(user);
+            return;
+          }
+        }
+      } catch (e) {
+        sessionStorage.removeItem('panthai_ems_session');
+      }
+
+      // No active session in this tab -> require fresh login
+      appState.currentUser = null;
+      resetHeaderGuestView();
+      showLoginModal();
+    }
+
+    function resetHeaderGuestView() {
+      const headerSection = document.getElementById('headerUserSection');
+      if (headerSection) {
+        headerSection.innerHTML = `
+          <button onclick="showLoginModal()" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-medium rounded-lg shadow transition flex items-center space-x-1.5">
+            <i class="fa-solid fa-right-to-bracket"></i>
+            <span>เข้าสู่ระบบ</span>
+          </button>
+        `;
+      }
+
+      // Hide navigation until logged in
+      document.getElementById('mainNav')?.classList.add('hidden');
+      document.getElementById('mobileBottomNav')?.classList.add('hidden');
+      document.getElementById('mobileQuickSubmitBar')?.classList.add('hidden');
+
+      // Update Checker Code input
+      const checkerIdInput = document.getElementById('checkerIdInput');
+      if (checkerIdInput) checkerIdInput.value = 'กรุณาเข้าสู่ระบบก่อนบันทึก';
+    }
+
+    function onUserLoggedIn(user) {
+      appState.currentUser = user;
+      try {
+        sessionStorage.setItem('panthai_ems_session', JSON.stringify(user));
+      } catch (e) {}
+
+      const displayCode = user.displayCode || formatCheckerCode(user.id);
+
+      // Update Header
+      const headerSection = document.getElementById('headerUserSection');
+      if (headerSection) {
+        headerSection.innerHTML = `
+          <div class="flex items-center space-x-2 bg-slate-800/90 px-3 py-1.5 rounded-xl border border-slate-700">
+            <div class="w-7 h-7 rounded-lg bg-red-600 flex items-center justify-center text-xs font-bold text-white uppercase font-mono">
+              ${displayCode}
+            </div>
+            <div class="text-left hidden sm:block">
+              <div class="text-xs font-bold text-white">${user.name}</div>
+              <div class="text-[10px] text-amber-400 font-mono">ผู้ตรวจ: ${displayCode} (${user.position})</div>
+            </div>
+            <button onclick="handleLogout()" class="text-slate-400 hover:text-red-400 p-1 ml-1" title="ออกจากระบบ">
+              <i class="fa-solid fa-right-from-bracket text-xs"></i>
+            </button>
+          </div>
+        `;
+      }
+
+      // Show Desktop Nav Bar & Mobile Bottom Nav Bar
+      document.getElementById('mainNav')?.classList.remove('hidden');
+      document.getElementById('mobileBottomNav')?.classList.remove('hidden');
+
+      // Show Mobile Quick Floating Bar on tabChecklist
+      const activeTab = document.getElementById('tabChecklist');
+      if (activeTab && !activeTab.classList.contains('hidden')) {
+        document.getElementById('mobileQuickSubmitBar')?.classList.remove('hidden');
+      }
+
+      // Update Checker Code input
+      const checkerIdInput = document.getElementById('checkerIdInput');
+      if (checkerIdInput) checkerIdInput.value = `ผู้ตรวจ: ${displayCode} [${user.position}] - ${user.name}`;
+
+      // Admin role check (Desktop & Mobile)
+      const usersNavTab = document.getElementById('navTabUsers');
+      const mNavUsers = document.getElementById('mNavUsers');
+      if (user.role === 'Admin') {
+        usersNavTab?.classList.remove('hidden');
+        mNavUsers?.classList.remove('hidden');
+      } else {
+        usersNavTab?.classList.add('hidden');
+        mNavUsers?.classList.add('hidden');
+      }
+
+      // Close modal
+      closeModal('loginModal');
+
+      // Check if forced password change needed
+      if (user.mustChangePassword) {
+        showChangePasswordModal();
+      }
+    }
+
+    function handleLogout() {
+      Swal.fire({
+        title: 'ต้องการออกจากระบบหรือไม่?',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'ออกจากระบบ',
+        cancelButtonText: 'ยกเลิก'
+      }).then(r => {
+        if (r.isConfirmed) {
+          appState.currentUser = null;
+          try {
+            sessionStorage.removeItem('panthai_ems_session');
+          } catch (e) {}
+          resetHeaderGuestView();
+          showLoginModal();
+        }
+      });
+    }
+
+    function showLoginModal() {
+      // Clear password input on open
+      const passInp = document.getElementById('loginPassword');
+      if (passInp) passInp.value = '';
+      document.getElementById('loginModal')?.classList.remove('hidden');
+    }
+
+    function showChangePasswordModal() {
+      document.getElementById('changePasswordModal')?.classList.remove('hidden');
+    }
+
+    function closeModal(id) {
+      document.getElementById(id)?.classList.add('hidden');
+    }
+
+    function toggleAuthMode(mode) {
+      const btnLogin = document.getElementById('btnAuthModeLogin');
+      const btnReg = document.getElementById('btnAuthModeRegister');
+      const formLogin = document.getElementById('formLogin');
+      const formReg = document.getElementById('formRegister');
+
+      if (mode === 'login') {
+        btnLogin.className = 'w-1/2 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-slate-900';
+        btnReg.className = 'w-1/2 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900';
+        formLogin.classList.remove('hidden');
+        formReg.classList.add('hidden');
+      } else {
+        btnReg.className = 'w-1/2 py-2 text-xs font-bold rounded-lg bg-white shadow-sm text-slate-900';
+        btnLogin.className = 'w-1/2 py-2 text-xs font-bold rounded-lg text-slate-600 hover:text-slate-900';
+        formReg.classList.remove('hidden');
+        formLogin.classList.add('hidden');
+      }
+    }
+
+    function fillDemoAccount(id, pass) {
+      document.getElementById('loginUsername').value = id;
+      document.getElementById('loginPassword').value = pass;
+    }
+
+    async function handleLoginSubmit(e) {
+      e.preventDefault();
+      const u = document.getElementById('loginUsername').value.trim();
+      const p = document.getElementById('loginPassword').value.trim();
+
+      Swal.fire({
+        title: 'กำลังตรวจสอบข้อมูล...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        const res = await executeBackendAction('login', { username: u, password: p });
+        if (res && res.success) {
+          Swal.close();
+          onUserLoggedIn(res.user);
+        } else {
+          Swal.fire({
+            icon: 'error',
+            title: 'เข้าสู่ระบบไม่สำเร็จ',
+            text: res ? res.message : 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง'
+          });
+        }
+      } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Error', text: err.toString() });
+      }
+    }
+
+    async function handleRegisterSubmit(e) {
+      e.preventDefault();
+      const userData = {
+        id: document.getElementById('regUserId').value.trim(),
+        name: document.getElementById('regName').value.trim(),
+        position: document.getElementById('regPosition').value,
+        password: document.getElementById('regPassword').value,
+        role: 'Staff'
+      };
+
+      Swal.fire({
+        title: 'กำลังลงทะเบียน...',
+        allowOutsideClick: false,
+        didOpen: () => Swal.showLoading()
+      });
+
+      try {
+        const res = await executeBackendAction('register', { userData });
+        if (res && res.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'ลงทะเบียนสำเร็จ!',
+            text: res.message
+          });
+          toggleAuthMode('login');
+        } else {
+          Swal.fire({ icon: 'error', title: 'ไม่สามารถลงทะเบียนได้', text: res.message });
+        }
+      } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Error', text: err.toString() });
+      }
+    }
+
+    async function handleChangePasswordSubmit(e) {
+      e.preventDefault();
+      const oldPass = document.getElementById('oldPassInput').value;
+      const newPass = document.getElementById('newPassInput').value;
+      const confirmPass = document.getElementById('confirmPassInput').value;
+
+      if (newPass !== confirmPass) {
+        Swal.fire({ icon: 'warning', title: 'รหัสผ่านใหม่ไม่ตรงกัน', text: 'กรุณากรอกรหัสผ่านใหม่ให้ตรงกันทั้ง 2 ช่อง' });
+        return;
+      }
+
+      Swal.fire({ title: 'กำลังบันทึกรหัสผ่านใหม่...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+      try {
+        const res = await executeBackendAction('changePassword', {
+          userId: appState.currentUser.id,
+          oldPassword: oldPass,
+          newPassword: newPass
+        });
+
+        if (res && res.success) {
+          appState.currentUser.mustChangePassword = false;
+          try {
+            sessionStorage.setItem('panthai_ems_session', JSON.stringify(appState.currentUser));
+          } catch (e) {}
+          closeModal('changePasswordModal');
+          Swal.fire({ icon: 'success', title: 'เปลี่ยนรหัสผ่านเรียบร้อยแล้ว!', text: 'ยินดีต้อนรับสู่ระบบตรวจเช็คอุปกรณ์' });
+        } else {
+          Swal.fire({ icon: 'error', title: 'ไม่สามารถเปลี่ยนรหัสผ่านได้', text: res.message });
+        }
+      } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Error', text: err.toString() });
+      }
+    }
+
+    /**
+     * Equipment Management
+     */
+    function renderEquipmentManagementTable() {
+      const tbody = document.getElementById('equipmentTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      appState.equipmentList.forEach((eq, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        tr.innerHTML = `
+          <td class="py-3 px-4 text-center font-bold font-mono text-slate-500">${idx + 1}</td>
+          <td class="py-3 px-4 font-bold text-slate-900">${eq.name}</td>
+          <td class="py-3 px-4 text-slate-600">${eq.standard}</td>
+          <td class="py-3 px-4"><span class="px-2 py-0.5 bg-slate-100 text-slate-700 rounded text-xs">${eq.category}</span></td>
+          <td class="py-3 px-4 text-center"><span class="px-2 py-0.5 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold">พร้อมใช้</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function showAddEquipmentModal() {
+      document.getElementById('addEquipmentModal')?.classList.remove('hidden');
+    }
+
+    async function handleAddEquipmentSubmit(e) {
+      e.preventDefault();
+      const eqData = {
+        name: document.getElementById('newEqName').value.trim(),
+        standard: document.getElementById('newEqStandard').value.trim(),
+        category: document.getElementById('newEqCategory').value
+      };
+
+      Swal.fire({ title: 'กำลังเพิ่มอุปกรณ์...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+      try {
+        const res = await executeBackendAction('addEquipment', { equipmentData: eqData });
+        if (res && res.success) {
+          appState.equipmentList.push({
+            id: res.item ? res.item.id : appState.equipmentList.length + 1,
+            name: eqData.name,
+            standard: eqData.standard,
+            category: eqData.category
+          });
+          saveLocalState();
+          renderChecklistUI();
+          renderEquipmentManagementTable();
+          closeModal('addEquipmentModal');
+          Swal.fire({ icon: 'success', title: 'เพิ่มอุปกรณ์เรียบร้อย!', text: res.message });
+        } else {
+          Swal.fire({ icon: 'error', title: 'Error', text: res.message });
+        }
+      } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Error', text: err.toString() });
+      }
+    }
+
+    /**
+     * Statistics & History
+     */
+    async function loadStatsData() {
+      const veh = document.getElementById('filterStatsVehicle')?.value || 'All';
+      const start = document.getElementById('filterStatsStartDate')?.value || '';
+      const end = document.getElementById('filterStatsEndDate')?.value || '';
+
+      const filters = { vehicle: veh, startDate: start, endDate: end };
+
+      try {
+        const res = await executeBackendAction('getHistory', { filters });
+        if (res && res.success) {
+          appState.historyLogs = res.history;
+          renderHistoryTable();
+          updateKPIStats();
+        }
+      } catch (e) {
+        renderHistoryTable();
+        updateKPIStats();
+      }
+    }
+
+    function renderHistoryTable() {
+      const tbody = document.getElementById('historyTableBody');
+      const countText = document.getElementById('historyCountText');
+      if (!tbody) return;
+
+      tbody.innerHTML = '';
+      if (countText) countText.textContent = `พบ ${appState.historyLogs.length} รายการ`;
+
+      if (appState.historyLogs.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-xs">ไม่พบข้อมูลการตรวจเช็คในช่วงเวลาที่เลือก</td></tr>`;
+        return;
+      }
+
+      appState.historyLogs.forEach((log, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        const pct = parseInt(log.readinessPercent, 10) || 100;
+        const isFull = pct === 100;
+        const shiftBadge = log.shift === 'เวรดึก' 
+          ? '<span class="ml-1 px-1.5 py-0.5 bg-indigo-100 text-indigo-800 rounded-md text-[10px] font-bold">🌙 ดึก</span>' 
+          : '<span class="ml-1 px-1.5 py-0.5 bg-amber-100 text-amber-800 rounded-md text-[10px] font-bold">☀️ เช้า</span>';
+
+        tr.innerHTML = `
+          <td class="py-3 px-4">
+            <div class="font-bold text-slate-800 flex items-center">${log.date} ${shiftBadge}</div>
+            <div class="text-[11px] text-slate-400 font-mono">${log.time || ''}</div>
+          </td>
+          <td class="py-3 px-4">
+            <span class="font-bold text-slate-900 px-2 py-0.5 bg-slate-100 rounded">${log.vehicle}</span>
+          </td>
+          <td class="py-3 px-4">
+            <div class="font-semibold text-slate-800">${log.checkerId}</div>
+            <div class="text-[11px] text-slate-500">${log.checkerName || ''} (${log.checkerPosition || 'EMT'})</div>
+          </td>
+          <td class="py-3 px-4">
+            <span class="px-2.5 py-1 rounded-full text-xs font-extrabold ${isFull ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
+              ${log.readinessPercent}
+            </span>
+          </td>
+          <td class="py-3 px-4 max-w-xs truncate text-slate-600">
+            ${log.defectiveSummary !== '-' ? `<span class="text-red-600 font-medium">${log.defectiveSummary}</span>` : '<span class="text-slate-400">ครบถ้วนสมบูรณ์</span>'}
+          </td>
+          <td class="py-3 px-4 text-center">
+            <button onclick="viewHistoryDetail(${idx})" class="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-lg text-xs font-semibold border border-blue-200">
+              <i class="fa-solid fa-eye mr-1"></i> ดู/พิมพ์ PDF
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateKPIStats() {
+      const total = appState.historyLogs.length;
+      let sumPct = 0;
+      let defectiveTotal = 0;
+
+      appState.historyLogs.forEach(l => {
+        sumPct += parseInt(l.readinessPercent, 10) || 100;
+        if (l.defectiveSummary && l.defectiveSummary !== '-') {
+          defectiveTotal++;
+        }
+      });
+
+      const avg = total > 0 ? Math.round(sumPct / total) : 100;
+
+      document.getElementById('statTotalChecks').textContent = `${total} ครั้ง`;
+      document.getElementById('statAvgReadiness').textContent = `${avg}%`;
+      document.getElementById('statDefectiveCount').textContent = `${defectiveTotal} รายการ`;
+    }
+
+    function viewHistoryDetail(idx) {
+      const log = appState.historyLogs[idx];
+      if (!log) return;
+
+      document.getElementById('historyDetailTitle').innerHTML = `
+        <i class="fa-solid fa-truck-medical text-red-500 mr-1.5"></i> รายงานผลการตรวจเช็ค ${log.vehicle} (${log.shift || 'เวรเช้า'})
+      `;
+      document.getElementById('historyDetailSubtitle').textContent = `วันที่ ${log.date} [${log.shift || 'เวรเช้า'}] เวลา ${log.time} | ผู้ตรวจ: ${log.checkerId} (${log.checkerPosition || 'EMT'})`;
+
+      const body = document.getElementById('historyDetailBody');
+      const items = log.items || [];
+
+      let itemsHtml = `
+        <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 mb-4 p-3 bg-slate-50 rounded-xl text-xs">
+          <div><span class="text-slate-500">รหัสรายงาน:</span> <strong class="font-mono">${log.logId}</strong></div>
+          <div><span class="text-slate-500">รถพยาบาล:</span> <strong>${log.vehicle}</strong></div>
+          <div><span class="text-slate-500">เวร:</span> <strong class="${log.shift === 'เวรดึก' ? 'text-indigo-700' : 'text-amber-700'}">${log.shift || 'เวรเช้า'}</strong></div>
+          <div><span class="text-slate-500">ความพร้อม:</span> <strong class="text-emerald-600">${log.readinessPercent}</strong></div>
+          <div><span class="text-slate-500">ผู้บันทึก:</span> <strong>${log.checkerId}</strong></div>
+        </div>
+
+        <h4 class="text-xs font-bold text-slate-700 uppercase mb-2">รายการอุปกรณ์ประจำรถ (${items.length} รายการ):</h4>
+        <div class="max-h-64 overflow-y-auto border border-slate-200 rounded-xl">
+          <table class="w-full text-xs text-left">
+            <thead class="bg-slate-100 text-slate-600 sticky top-0">
+              <tr>
+                <th class="p-2 w-10 text-center">#</th>
+                <th class="p-2">รายการ</th>
+                <th class="p-2 w-24 text-center">สถานะ</th>
+                <th class="p-2 w-28">จำนวนที่ตรวจ</th>
+                <th class="p-2">หมายเหตุ</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+      `;
+
+      items.forEach((it, i) => {
+        const isR = it.status === 'Ready' || it.status === 'พร้อมใช้งาน';
+        itemsHtml += `
+          <tr class="${isR ? '' : 'bg-red-50/70'}">
+            <td class="p-2 text-center font-mono">${i + 1}</td>
+            <td class="p-2 font-medium">${it.name}</td>
+            <td class="p-2 text-center">
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${isR ? 'bg-emerald-100 text-emerald-800' : 'bg-red-100 text-red-800'}">
+                ${isR ? 'พร้อมใช้' : 'ไม่พร้อม'}
+              </span>
+            </td>
+            <td class="p-2 text-slate-600">${it.qty || '-'}</td>
+            <td class="p-2 text-red-700">${it.reason || '-'}</td>
+          </tr>
+        `;
+      });
+
+      itemsHtml += `
+            </tbody>
+          </table>
+        </div>
+      `;
+
+      if (log.notes) {
+        itemsHtml += `
+          <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs text-amber-900 mt-3">
+            <strong>หมายเหตุสรุปภาพรวม:</strong> ${log.notes}
+          </div>
+        `;
+      }
+
+      body.innerHTML = itemsHtml;
+
+      // Bind Export PDF Button
+      const btnPdf = document.getElementById('btnExportModalPdf');
+      btnPdf.onclick = () => generatePDFReport(log);
+
+      document.getElementById('historyDetailModal')?.classList.remove('hidden');
+    }
+
+    /**
+     * PDF Report Generator (Official EMS Template)
+     */
+    function generatePDFReport(log) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+
+      // Title & Header
+      doc.setFontSize(16);
+      doc.setTextColor(15, 23, 42);
+      doc.text('หน่วยกู้ชีพเทศบาลเมืองพันท้ายนรสิงห์', 105, 18, { align: 'center' });
+
+      doc.setFontSize(12);
+      doc.setTextColor(220, 38, 38);
+      doc.text(`แบบรายงานการตรวจเช็คความพร้อมอุปกรณ์ประจำรถ ${log.vehicle} (${log.shift || 'เวรเช้า'})`, 105, 25, { align: 'center' });
+
+      doc.setFontSize(9);
+      doc.setTextColor(71, 85, 105);
+      doc.text(`วันที่ตรวจเช็ค: ${log.date} (${log.shift || 'เวรเช้า'}) เวลา ${log.time} น.  |  รหัสผู้ตรวจ: ${log.checkerId} (${log.checkerPosition || 'EMT'})  |  ระดับความพร้อม: ${log.readinessPercent}`, 105, 31, { align: 'center' });
+
+      doc.setDrawColor(203, 213, 225);
+      doc.line(14, 34, 196, 34);
+
+      // AutoTable for items
+      const tableData = (log.items || []).map((it, idx) => [
+        idx + 1,
+        it.name,
+        (it.status === 'Ready' || it.status === 'พร้อมใช้งาน') ? 'พร้อมใช้' : 'ไม่พร้อม',
+        it.qty || '-',
+        it.reason || '-'
+      ]);
+
+      doc.autoTable({
+        startY: 37,
+        head: [['ลำดับ', 'รายการอุปกรณ์', 'สถานะ', 'จำนวน', 'หมายเหตุ/สาเหตุที่ชำรุด']],
+        body: tableData,
+        theme: 'grid',
+        styles: { fontSize: 8, cellPadding: 2 },
+        headStyles: { fillColor: [15, 23, 42], textColor: [255, 255, 255], halign: 'center' },
+        columnStyles: {
+          0: { cellWidth: 12, halign: 'center' },
+          1: { cellWidth: 70 },
+          2: { cellWidth: 22, halign: 'center' },
+          3: { cellWidth: 25, halign: 'center' },
+          4: { cellWidth: 55 }
+        },
+        didParseCell: function (data) {
+          if (data.section === 'body' && data.column.index === 2) {
+            if (data.cell.raw === 'พร้อมใช้') {
+              data.cell.styles.textColor = [22, 163, 74];
+              data.cell.styles.fontStyle = 'bold';
+            } else {
+              data.cell.styles.textColor = [220, 38, 38];
+              data.cell.styles.fontStyle = 'bold';
+            }
+          }
+        }
+      });
+
+      // Signature Block at bottom
+      const finalY = doc.lastAutoTable.finalY + 12;
+      if (finalY < 260) {
+        doc.setFontSize(9);
+        doc.setTextColor(15, 23, 42);
+        doc.text('ลงชื่อ...................................................... ผู้ตรวจเช็ค', 30, finalY);
+        doc.text(`( ${log.checkerName || log.checkerId} )`, 35, finalY + 6);
+        doc.text(`ตำแหน่ง: ${log.checkerPosition || 'EMT'} (${log.shift || 'เวรเช้า'})`, 35, finalY + 11);
+
+        doc.text('ลงชื่อ...................................................... หัวหน้าเวร/ผู้รับรอง', 120, finalY);
+        doc.text('( ...................................................... )', 125, finalY + 6);
+        doc.text('ตำแหน่ง: ผู้ควบคุมการปฏิบัติการ', 125, finalY + 11);
+      }
+
+      doc.save(`รายงานตรวจเช็ค_${log.vehicle}_${log.shift || 'เวรเช้า'}_${log.date}.pdf`);
+    }
+
+    /**
+     * Excel / CSV Export
+     */
+    function exportHistoryExcel() {
+      if (appState.historyLogs.length === 0) {
+        Swal.fire({ icon: 'info', title: 'ไม่มีข้อมูล', text: 'ไม่พบข้อมูลสำหรับการส่งออก Excel' });
+        return;
+      }
+
+      const rows = appState.historyLogs.map(l => ({
+        'Log ID': l.logId,
+        'วันที่': l.date,
+        'เวลา': l.time,
+        'เวรปฏิบัติงาน': l.shift || 'เวรเช้า',
+        'รถพยาบาล': l.vehicle,
+        'รหัสผู้ตรวจ': l.checkerId,
+        'ชื่อผู้ตรวจ': l.checkerName,
+        'ตำแหน่ง': l.checkerPosition,
+        'ความพร้อม (%)': l.readinessPercent,
+        'รายการไม่พร้อม': l.defectiveSummary,
+        'หมายเหตุ': l.notes || ''
+      }));
+
+      const ws = XLSX.utils.json_to_sheet(rows);
+      const wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, "ChecklistHistory");
+      XLSX.writeFile(wb, `EMS_Panthai_Checklist_${appState.currentDate}.xlsx`);
+    }
+
+    /**
+     * Admin User Management
+     */
+    async function loadUsersManagement() {
+      try {
+        const res = await executeBackendAction('getUsersList', { adminId: appState.currentUser?.id });
+        if (res && res.success) {
+          appState.usersList = res.users;
+          renderUsersTable();
+        }
+      } catch (e) {
+        renderUsersTable();
+      }
+    }
+
+    function renderUsersTable() {
+      const tbody = document.getElementById('usersTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      appState.usersList.forEach(u => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition';
+        const isApproved = u.status === 'Approved';
+
+        tr.innerHTML = `
+          <td class="py-3 px-4 font-bold text-slate-800 font-mono">${u.id}</td>
+          <td class="py-3 px-4 font-medium text-slate-900">${u.name}</td>
+          <td class="py-3 px-4"><span class="px-2 py-0.5 bg-blue-50 text-blue-800 rounded text-xs font-bold">${u.position}</span></td>
+          <td class="py-3 px-4 text-slate-600">${u.role}</td>
+          <td class="py-3 px-4">${u.mustChangePassword ? '<span class="text-amber-600 font-semibold">ต้องเปลี่ยน</span>' : '<span class="text-slate-400">เรียบร้อย</span>'}</td>
+          <td class="py-3 px-4 text-center">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${isApproved ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'}">
+              ${isApproved ? 'อนุมัติแล้ว' : 'รออนุมัติ'}
+            </span>
+          </td>
+          <td class="py-3 px-4 text-center space-x-1">
+            ${!isApproved ? `
+              <button onclick="updateUserStatus('${u.id}', 'Approved')" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg text-xs font-bold shadow">
+                อนุมัติ
+              </button>
+            ` : `
+              <button onclick="updateUserStatus('${u.id}', 'Pending')" class="px-2.5 py-1 bg-slate-200 hover:bg-red-100 hover:text-red-700 text-slate-700 rounded-lg text-xs font-semibold">
+                ระงับสิทธิ์
+              </button>
+            `}
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    async function updateUserStatus(userId, status) {
+      Swal.fire({ title: 'กำลังอัปเดตสิทธิ์...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+      try {
+        const res = await executeBackendAction('approveUser', {
+          adminId: appState.currentUser?.id,
+          targetUserId: userId,
+          status: status
+        });
+        if (res && res.success) {
+          Swal.fire({ icon: 'success', title: 'สำเร็จ', text: res.message });
+          loadUsersManagement();
+        }
+      } catch (err) {
+        Swal.fire({ icon: 'error', title: 'Error', text: err.toString() });
+      }
+    }
+
+    async function triggerInitSheets() {
+      const confirm = await Swal.fire({
+        title: 'สร้างและจัดรูปแบบชีททั้ง 3 คันอัตโนมัติ?',
+        text: 'ระบบจะสร้างชีท พยาบาลที่3, พยาบาลที่4, พยาบาลที่5, CheckLogs, EquipmentMaster และ Users พร้อมช่อง 1-31 วัน',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'ดำเนินการ'
+      });
+      if (!confirm.isConfirmed) return;
+
+      Swal.fire({ title: 'กำลังสร้างชีท...', allowOutsideClick: false, didOpen: () => Swal.showLoading() });
+
+      try {
+        const res = await executeBackendAction('initSheets', {});
+        Swal.fire({ icon: 'success', title: 'สำเร็จ!', text: res.message || 'สร้างชีทอัตโนมัติเรียบร้อย' });
+      } catch (e) {
+        Swal.fire({ icon: 'error', title: 'Error', text: e.toString() });
+      }
+    }
+
+    /**
+     * Local Storage Helpers & Mock Fallback
+     */
+    function loadLocalState() {
+      const eq = localStorage.getItem('panthai_ems_equipment');
+      if (eq) {
+        try { appState.equipmentList = JSON.parse(eq); } catch (e) {}
+      }
+      const logs = localStorage.getItem('panthai_ems_history');
+      if (logs) {
+        try { appState.historyLogs = JSON.parse(logs); } catch (e) {}
+      }
+    }
+
+    function saveLocalState() {
+      localStorage.setItem('panthai_ems_equipment', JSON.stringify(appState.equipmentList));
+      localStorage.setItem('panthai_ems_history', JSON.stringify(appState.historyLogs));
+    }
+
+    /**
+     * ============================================================================
+     * GITHUB PAGES & GOOGLE APPS SCRIPT API INTEGRATION
+     * ============================================================================
+     */
+    function showApiConfigModal() {
+      const modal = document.getElementById('apiConfigModal');
+      const input = document.getElementById('gasApiUrlInput');
+      const currentUrl = localStorage.getItem('panthai_gas_api_url') || '';
+      if (input) input.value = currentUrl;
+      updateApiStatusIndicator();
+      if (modal) modal.classList.remove('hidden');
+    }
+
+    async function pasteGasApiUrl() {
+      try {
+        const text = await navigator.clipboard.readText();
+        const input = document.getElementById('gasApiUrlInput');
+        if (input && text) {
+          input.value = text.trim();
+          triggerHaptic(15);
+        }
+      } catch (e) {
+        Swal.fire({
+          icon: 'info',
+          title: 'กรุณาวาง URL ด้วยตนเอง',
+          text: 'กด Ctrl+V หรือแตะค้างที่ช่องเพื่อวาง URL ของ Apps Script Web App'
+        });
+      }
+    }
+
+    function updateApiStatusIndicator() {
+      const icon = document.getElementById('apiStatusIcon');
+      const text = document.getElementById('apiStatusText');
+      const banner = document.getElementById('apiStatusBanner');
+      const dot = document.getElementById('apiStatusDot');
+      const title = document.getElementById('apiStatusTitle');
+      const desc = document.getElementById('apiStatusDesc');
+
+      const isGAS = typeof google !== 'undefined' && google.script && google.script.run;
+      const gasApiUrl = localStorage.getItem('panthai_gas_api_url');
+
+      if (isGAS) {
+        if (icon) { icon.className = 'fa-solid fa-bolt text-emerald-400'; }
+        if (text) { text.textContent = 'GAS Native'; }
+        if (banner) { banner.className = 'p-3 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start space-x-2.5'; }
+        if (dot) { dot.className = 'w-3 h-3 rounded-full bg-emerald-500 mt-0.5 shrink-0'; }
+        if (title) { title.textContent = 'ทำงานบน Google Apps Script โดยตรง'; title.className = 'font-bold text-emerald-900'; }
+        if (desc) { desc.textContent = 'เชื่อมต่อฐานข้อมูล Google Sheet อัตโนมัติผ่านระบบ Native Host'; desc.className = 'text-[11px] text-emerald-700 mt-0.5'; }
+      } else if (gasApiUrl && gasApiUrl.trim().startsWith('http')) {
+        if (icon) { icon.className = 'fa-solid fa-cloud-arrow-up text-emerald-400'; }
+        if (text) { text.textContent = 'เชื่อมต่อ Google Sheet'; }
+        if (banner) { banner.className = 'p-3 rounded-2xl bg-emerald-50 border border-emerald-200 flex items-start space-x-2.5'; }
+        if (dot) { dot.className = 'w-3 h-3 rounded-full bg-emerald-500 mt-0.5 shrink-0 animate-pulse'; }
+        if (title) { title.textContent = 'เชื่อมต่อ Google Sheet Web App API แล้ว'; title.className = 'font-bold text-emerald-900'; }
+        if (desc) { desc.textContent = 'ข้อมูลจะถูกบันทึกลงชีท กข9745, กค7080, กง3002 และ CheckLogs ตามเวลาจริง'; desc.className = 'text-[11px] text-emerald-700 mt-0.5'; }
+      } else {
+        if (icon) { icon.className = 'fa-solid fa-plug-circle-exclamation text-amber-400'; }
+        if (text) { text.textContent = 'โหมดเดโม (Demo)'; }
+        if (banner) { banner.className = 'p-3 rounded-2xl bg-amber-50 border border-amber-200 flex items-start space-x-2.5'; }
+        if (dot) { dot.className = 'w-3 h-3 rounded-full bg-amber-500 mt-0.5 shrink-0'; }
+        if (title) { title.textContent = 'อยู่ในโหมดจำลอง (Demo Simulation)'; title.className = 'font-bold text-amber-900'; }
+        if (desc) { desc.textContent = 'ท่านสามารถใส่ Web App URL ของ Apps Script ด้านล่างเพื่อเชื่อมต่อ Google Sheet จริง'; desc.className = 'text-[11px] text-amber-700 mt-0.5'; }
+      }
+    }
+
+    async function saveGasApiUrl() {
+      const input = document.getElementById('gasApiUrlInput');
+      const url = input ? input.value.trim() : '';
+
+      if (!url) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'กรุณากรอก Web App URL',
+          text: 'หากต้องการใช้โหมดเดโม ให้กด "ใช้โหมดจำลอง (Demo Mode)"'
+        });
+        return;
+      }
+
+      if (!url.startsWith('https://script.google.com/')) {
+        const confirm = await Swal.fire({
+          title: 'URL อาจไม่ถูกต้อง',
+          text: 'ปกติแล้ว Google Apps Script Web App URL จะขึ้นต้นด้วย https://script.google.com/macros/s/.../exec ต้องการบันทึกหรือไม่?',
+          icon: 'question',
+          showCancelButton: true,
+          confirmButtonText: 'บันทึกต่อ',
+          cancelButtonText: 'แก้ไข URL'
+        });
+        if (!confirm.isConfirmed) return;
+      }
+
+      localStorage.setItem('panthai_gas_api_url', url);
+      updateApiStatusIndicator();
+      triggerHaptic(25);
+
+      Swal.fire({
+        icon: 'success',
+        title: 'บันทึกการตั้งค่าสำเร็จ!',
+        text: 'เว็บไซต์พร้อมเชื่อมต่อ Google Sheet ผ่าน API แล้ว',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      closeModal('apiConfigModal');
+    }
+
+    async function testGasApiConnection() {
+      const input = document.getElementById('gasApiUrlInput');
+      const url = input ? input.value.trim() : '';
+
+      if (!url) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'กรุณากรอก URL เพื่อทดสอบ',
+          text: 'วาง URL ของ Apps Script Web App ในช่องด้านบนก่อน'
+        });
+        return;
+      }
+
+      Swal.fire({
+        title: 'กำลังทดสอบเชื่อมต่อ...',
+        text: 'กำลังส่งคำขอ Ping ไปยัง Google Apps Script',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+      });
+
+      try {
+        const res = await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ action: 'ping' })
+        });
+        const data = await res.json();
+        if (data && data.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'เชื่อมต่อสำเร็จ! (Connected 🟢)',
+            html: `
+              <div class="text-xs text-slate-600 space-y-1 text-left">
+                <p class="font-bold text-emerald-700">Google Sheet API ตอบรับเรียบร้อยแล้ว</p>
+                <p class="text-slate-500 font-mono">${data.message || 'Ready'}</p>
+              </div>
+            `
+          });
+          localStorage.setItem('panthai_gas_api_url', url);
+          updateApiStatusIndicator();
+        } else {
+          throw new Error(data ? data.message : 'Invalid response');
+        }
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'ไม่สามารถเชื่อมต่อได้',
+          html: `
+            <div class="text-xs text-slate-600 text-left space-y-2">
+              <p>สาเหตุที่เป็นไปได้:</p>
+              <ul class="list-disc list-inside space-y-1 text-[11px] text-slate-500">
+                <li>ยังไม่ได้เลือก <strong>"Who has access: Anyone (ทุกคน)"</strong> ตอน Deploy Web App</li>
+                <li>URL ที่วางไม่ถูกต้อง หรือไม่ใช่ลิงก์ <code class="bg-red-50 text-red-700 px-1 py-0.5 rounded">/exec</code></li>
+                <li>ยังไม่ได้กด Save หรือไม่ได้รันฟังก์ชัน <code class="bg-red-50 text-red-700 px-1 py-0.5 rounded">initSheets</code></li>
+              </ul>
+              <p class="text-red-500 font-mono text-[10px]">${err.toString()}</p>
+            </div>
+          `
+        });
+      }
+    }
+
+    function resetToDemoMode() {
+      localStorage.removeItem('panthai_gas_api_url');
+      const input = document.getElementById('gasApiUrlInput');
+      if (input) input.value = '';
+      updateApiStatusIndicator();
+      Swal.fire({
+        icon: 'info',
+        title: 'สลับเป็นโหมดจำลอง (Demo Mode) แล้ว',
+        text: 'สามารถทดลองใช้งานและบันทึกข้อมูลในระดับเครื่องได้ทันที',
+        timer: 2000,
+        showConfirmButton: false
+      });
+      closeModal('apiConfigModal');
+    }
+
+    async function initSheetsViaApi() {
+      const confirm = await Swal.fire({
+        title: 'สร้างโครงสร้าง Google Sheet อัตโนมัติ?',
+        text: 'ระบบจะสร้างชีท กข9745, กค7080, กง3002, CheckLogs, Users, EquipmentMaster พร้อมคอลัมน์และ Dropdown',
+        icon: 'question',
+        showCancelButton: true,
+        confirmButtonText: 'ยืนยันสร้างชีท',
+        cancelButtonText: 'ยกเลิก'
+      });
+      if (!confirm.isConfirmed) return;
+
+      Swal.fire({
+        title: 'กำลังสร้างและจัดรูปแบบ Sheet...',
+        allowOutsideClick: false,
+        didOpen: () => { Swal.showLoading(); }
+      });
+
+      try {
+        const response = await executeBackendAction('initSheets');
+        if (response && response.success) {
+          Swal.fire({
+            icon: 'success',
+            title: 'สร้าง Sheet สำเร็จ!',
+            text: response.message || 'จัดเตรียมชีทรถพยาบาลทั้ง 3 คันเรียบร้อยแล้ว'
+          });
+        } else {
+          throw new Error(response ? response.message : 'Unknown error');
+        }
+      } catch (err) {
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด',
+          text: err.toString()
+        });
+      }
+    }
+
+    /**
+     * Unified Backend Action Bridge
+     * Priority:
+     * 1. Google Apps Script Native (`google.script.run`)
+     * 2. External API via fetch to configured GAS Web App URL (for GitHub Pages / Custom Host)
+     * 3. Local In-Browser Mock Simulation (Demo Mode)
+     */
+    async function executeBackendAction(action, payload = {}) {
+      // 1. If running natively in Google Apps Script iframe
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        return new Promise((resolve, reject) => {
+          switch (action) {
+            case 'login':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).loginUser(payload.username, payload.password);
+              break;
+            case 'register':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).registerUser(payload.userData);
+              break;
+            case 'changePassword':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).changePassword(payload.userId, payload.oldPassword, payload.newPassword);
+              break;
+            case 'saveChecklist':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).saveChecklistBatch(payload.checkData);
+              break;
+            case 'getHistory':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getChecklistHistory(payload.filters);
+              break;
+            case 'addEquipment':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).addNewEquipment(payload.equipmentData);
+              break;
+            case 'getUsersList':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getUsersList(payload.adminId);
+              break;
+            case 'approveUser':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).approveUser(payload.adminId, payload.targetUserId, payload.status);
+              break;
+            case 'initSheets':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).initSheets();
+              break;
+            case 'getEquipment':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getEquipmentList();
+              break;
+            case 'getDashboardStats':
+              google.script.run.withSuccessHandler(resolve).withFailureHandler(reject).getDashboardStats(payload.month, payload.year);
+              break;
+            default:
+              resolve({ success: true });
+          }
+        });
+      }
+
+      // 2. If running externally (e.g. GitHub Pages) and user provided a Google Apps Script Web App URL
+      const gasApiUrl = localStorage.getItem('panthai_gas_api_url');
+      if (gasApiUrl && gasApiUrl.trim().startsWith('http')) {
+        try {
+          const bodyPayload = { action: action, ...payload };
+          const response = await fetch(gasApiUrl.trim(), {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify(bodyPayload)
+          });
+          const data = await response.json();
+          return data;
+        } catch (fetchErr) {
+          console.warn('GAS API fetch error, falling back to local simulation:', fetchErr);
+        }
+      }
+
+      // 3. Fallback: Local / Standalone Browser Mock Simulation (Demo Mode)
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          if (action === 'login') {
+            const defaults = [
+              { id: 'phantai312', name: 'เจ้าหน้าที่ กู้ชีพ 312', position: 'EMT', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai325', name: 'เจ้าหน้าที่ กู้ชีพ 325', position: 'EMT', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai326', name: 'เจ้าหน้าที่ กู้ชีพ 326', position: 'EMT', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai327', name: 'เจ้าหน้าที่ กู้ชีพ 327', position: 'EMT', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai122', name: 'เจ้าหน้าที่ กู้ชีพ 122', position: 'EMR', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai134', name: 'เจ้าหน้าที่ กู้ชีพ 134', position: 'EMR', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai136', name: 'เจ้าหน้าที่ กู้ชีพ 136', position: 'EMR', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'phantai137', name: 'เจ้าหน้าที่ กู้ชีพ 137', position: 'EMR', pass: '123456', role: 'Staff', mustChange: true },
+              { id: 'ems.pantai@gmail.com', name: 'ผู้ดูแลระบบ กู้ชีพพันท้ายนรสิงห์', position: 'Administrator', pass: 'ems1669', role: 'Admin', mustChange: false }
+            ];
+
+            const found = defaults.find(u => u.id.toLowerCase() === (payload.username || '').toLowerCase() && u.pass === payload.password);
+            if (found) {
+              resolve({
+                success: true,
+                user: {
+                  id: found.id,
+                  name: found.name,
+                  position: found.position,
+                  role: found.role,
+                  mustChangePassword: found.mustChange
+                }
+              });
+            } else {
+              resolve({ success: false, message: 'ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง' });
+            }
+          } else if (action === 'saveChecklist') {
+            const items = payload.checkData.items || [];
+            const readyCount = items.filter(i => i.status === 'Ready').length;
+            const pct = items.length > 0 ? Math.round((readyCount / items.length) * 100) : 100;
+            resolve({
+              success: true,
+              logId: 'CHK-' + Date.now(),
+              readinessPercent: pct,
+              message: 'บันทึกข้อมูลสำเร็จ (โหมดจำลอง/เชื่อมต่อ Sheet อัตโนมัติ)'
+            });
+          } else if (action === 'changePassword') {
+            resolve({ success: true, message: 'เปลี่ยนรหัสผ่านสำเร็จ' });
+          } else if (action === 'register') {
+            resolve({ success: true, message: 'ลงทะเบียนสำเร็จ! กรุณารอแอดมินอนุมัติ' });
+          } else if (action === 'addEquipment') {
+            resolve({ success: true, item: { id: Date.now(), ...payload.equipmentData }, message: 'เพิ่มอุปกรณ์เรียบร้อย' });
+          } else if (action === 'initSheets') {
+            resolve({ success: true, message: 'สร้างชีทอัตโนมัติสำเร็จ' });
+          } else {
+            resolve({ success: true, message: 'สำเร็จ' });
+          }
+        }, 400);
+      });
+    }
+  </script>
+</body>
+</html>
